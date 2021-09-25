@@ -1,0 +1,27 @@
+<div class="reduced-font" [@fadeInOut] >
+  <form>
+    <div class="form-group">
+      <label>Group</label>
+      <br />
+      <select name="Group" size="4">
+        <option>group 1</option>
+        <option>group 2</option>
+        <option>group 3</option>
+        <option>group 4</option>
+        <option>group 5</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Location</label>
+      <input class="form-control" placeholder="Location"/>
+    </div>
+    <div class="form-group">
+      <label>Date</label>
+      <input class="form-control" type="date" />
+    </div>
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary btn-left">Create Game</button>
+      <button type="button" class="btn btn-secondary btn-right" routerLink="/games">Cancel</button>
+    </div>
+  </form>
+</div>
