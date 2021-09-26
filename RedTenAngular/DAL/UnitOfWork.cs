@@ -89,7 +89,7 @@ namespace DAL
                 return _games;
             }
         }
-        public IPlayerRepository Player
+        public IPlayerRepository Players
         {
             get
             {

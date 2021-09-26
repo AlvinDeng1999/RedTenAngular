@@ -60,7 +60,7 @@ namespace DAL
 
 
 
-            if (!await _context.Customers.AnyAsync() && !await _context.ProductCategories.AnyAsync())
+            /*if (!await _context.Customers.AnyAsync() && !await _context.ProductCategories.AnyAsync())
             {
                 _logger.LogInformation("Seeding initial data");
 
@@ -192,7 +192,7 @@ namespace DAL
                 await _context.SaveChangesAsync();
 
                 _logger.LogInformation("Seeding initial data completed");
-            }
+            }*/
         }
 
 

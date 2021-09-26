@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31624.102
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedTenAngular", "RedTenAngular\RedTenAngular\RedTenAngular.csproj", "{4D60C6B4-C520-4988-91D4-A50F24C90FBC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedTenAngular", "RedTenAngular\RedTenAngular\RedTenAngular.csproj", "{4D60C6B4-C520-4988-91D4-A50F24C90FBC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "RedTenAngular\DAL\DAL.csproj", "{AE579A76-AE28-44B3-8FF5-36ED863D04BE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL", "RedTenAngular\DAL\DAL.csproj", "{AE579A76-AE28-44B3-8FF5-36ED863D04BE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedTenAngularTests", "RedTenAngularTests\RedTenAngularTests.csproj", "{DB7D1141-7D0C-4C05-BA56-B091ADC37677}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{AE579A76-AE28-44B3-8FF5-36ED863D04BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE579A76-AE28-44B3-8FF5-36ED863D04BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE579A76-AE28-44B3-8FF5-36ED863D04BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB7D1141-7D0C-4C05-BA56-B091ADC37677}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB7D1141-7D0C-4C05-BA56-B091ADC37677}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB7D1141-7D0C-4C05-BA56-B091ADC37677}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB7D1141-7D0C-4C05-BA56-B091ADC37677}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
