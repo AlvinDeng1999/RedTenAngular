@@ -12,5 +12,6 @@ namespace DAL.Repositories.Interfaces
         IEnumerable<Game> GetAllGames();
         void AddGame(Game game);
         Game GetGame(int id);
+        int? GetGameId(string userId);
     }
 }

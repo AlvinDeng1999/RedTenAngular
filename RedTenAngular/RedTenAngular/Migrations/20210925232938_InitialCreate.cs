@@ -27,34 +27,6 @@ namespace RedTenAngular.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Games",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Location = table.Column<string>(type: "nvarchar(50)", nullable: false),
-                    Date = table.Column<DateTime>(type: "DateTime", nullable: false),
-                    Status = table.Column<String>(type: "nvarchar(10)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Game_ID", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Rounds",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Time = table.Column<DateTime>(type: "DateTime", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Round_ID", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Groups",
                 columns: table => new
                 {
@@ -66,6 +38,50 @@ namespace RedTenAngular.Migrations
                 {
                     table.PrimaryKey("PK_Group_ID", x => x.Id);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "Games",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    GroupId = table.Column<int>(type: "int", nullable: false),
+                    Location = table.Column<string>(type: "nvarchar(50)", nullable: false),
+                    Date = table.Column<DateTime>(type: "DateTime", nullable: false),
+                    Status = table.Column<String>(type: "nvarchar(10)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Game_ID", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Game_GroupId",
+                        column: x => x.GroupId,
+                        principalTable: "Groups",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Rounds",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    GameId = table.Column<int>(type: "int", nullable: false),
+                    Time = table.Column<DateTime>(type: "DateTime", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Round_ID", x => x.Id);
+                table.ForeignKey(
+                    name: "FK_Rounds_GameId",
+                    column: x => x.GameId,
+                    principalTable: "Games",
+                    principalColumn: "Id",
+                    onDelete: ReferentialAction.Cascade);
+                });
+
+            
 
             migrationBuilder.CreateTable(
                 name: "RoundPlayer",
@@ -91,58 +107,6 @@ namespace RedTenAngular.Migrations
                         principalTable: "Rounds",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "RoundGame",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RoundId = table.Column<int>(type: "int", nullable: false),
-                    GameId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_RoundGame_ID", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_RoundGame_Round",
-                        column: x => x.RoundId,
-                        principalTable: "Rounds",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_RoundGame_Game",
-                        column: x => x.GameId,
-                        principalTable: "Games",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "GameGroup",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    GameId = table.Column<int>(type: "int", nullable: false),
-                    GroupId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_GameGroup_ID", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_GameGroup_Game",
-                        column: x => x.GameId,
-                        principalTable: "Games",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_GameGroup_Group",
-                        column: x => x.GroupId,
-                        principalTable: "Groups",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(

@@ -13,5 +13,7 @@ namespace DAL.Models
         public int id { get; set; }
         [Required]
         public DateTime Time { get; set; }
+        [Required]
+        public int GameId { get; set; }
     }
 }

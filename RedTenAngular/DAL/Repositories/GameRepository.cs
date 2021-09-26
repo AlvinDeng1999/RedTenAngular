@@ -30,6 +30,13 @@ namespace DAL.Repositories
             return _appContext.Games.Where(g => g.id == id).Include(g => g.Rounds).FirstOrDefault();
         }
 
+        public int? GetGameId(string userId)
+        {
+            int? groupid = this._appContext.GroupUsers.Where(gu=>gu.userId==userId).FirstOrDefault()?.GroupId;
+            if (groupid == null) return null;
+            return this._appContext.Games.Where(g => g.GroupId == groupid && g.Status == "Open").OrderByDescending(g => g.Date).FirstOrDefault()?.id;
+        }
+
         private ApplicationDbContext _appContext => (ApplicationDbContext)_context;
     }
 }

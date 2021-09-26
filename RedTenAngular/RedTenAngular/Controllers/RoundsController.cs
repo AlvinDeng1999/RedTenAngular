@@ -44,11 +44,14 @@ namespace RedTenAngular.Controllers
         }
 
         [HttpPost]
-        public Round PostRound(Round round)
+        public IActionResult PostRound(Round round)
         {
+            int? recentGameId = this._unitOfWork.Games.GetGameId(this._unitOfWork.CurrentUserId);
+            if (recentGameId == null) return BadRequest("Please create a game first");
+            round.GameId = recentGameId.Value;
             this._unitOfWork.Rounds.AddRound(round);
             this._unitOfWork.SaveChanges();
-            return round;
+            return Ok(round);
         }
     }
 }

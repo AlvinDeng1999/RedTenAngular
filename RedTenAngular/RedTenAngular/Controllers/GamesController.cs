@@ -44,11 +44,17 @@ namespace RedTenAngular.Controllers
         }
 
         [HttpPost]
-        public Game PostGames(Game game)
+        public IActionResult PostGames(Game game)
         {
+            int? groupId = this._unitOfWork.GroupUsers.GetGroupId(this._unitOfWork.CurrentUserId);
+            if (!groupId.HasValue)
+            {
+                return BadRequest("Please create your group first");
+            }
+            game.GroupId = groupId.Value;
             this._unitOfWork.Games.AddGame(game);
             this._unitOfWork.SaveChanges();
-            return game;
+            return Ok(game);
         }
     }
 }
