@@ -19,5 +19,6 @@ namespace DAL.Models
         [Required]
         [MaxLength(10)]
         public string Status { get; set; }
+        public ICollection<Round> Rounds { get; set; }
     }
 }

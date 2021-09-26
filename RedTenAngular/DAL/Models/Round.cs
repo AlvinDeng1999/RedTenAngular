@@ -13,5 +13,6 @@ namespace DAL.Models
         public int id { get; set; }
         [Required]
         public DateTime Time { get; set; }
+        public ICollection<Player> Players { get; set; } 
     }
 }

@@ -20,6 +20,10 @@ namespace DAL
         ICustomerRepository _customers;
         IProductRepository _products;
         IOrdersRepository _orders;
+        IGroupRepository _groups;
+        IGameRepository _games;
+        IPlayerRepository _players;
+        IRoundRepository _rounds;
 
 
 
@@ -67,7 +71,42 @@ namespace DAL
             }
         }
 
-
+        public IGroupRepository Groups
+        {
+            get
+            {
+                if (_groups == null)
+                    _groups = new GroupRepository(_context);
+                return _groups;
+            }
+        }
+        public IGameRepository Games
+        {
+            get
+            {
+                if (_games == null)
+                    _games = new GameRepository(_context);
+                return _games;
+            }
+        }
+        public IPlayerRepository Player
+        {
+            get
+            {
+                if (_players == null)
+                    _players = new PlayerRepository(_context);
+                return _players;
+            }
+        }
+        public IRoundRepository Rounds
+        {
+            get
+            {
+                if (_rounds == null)
+                    _rounds = new RoundRepository(_context);
+                return _rounds;
+            }
+        }
 
 
         public int SaveChanges()
