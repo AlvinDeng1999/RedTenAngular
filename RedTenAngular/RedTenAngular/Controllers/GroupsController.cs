@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using DAL;
 using DAL.Models;
+using IdentityServer4.AccessTokenValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -11,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace RedTenAngular.Controllers
 {
+    [Authorize(AuthenticationSchemes = IdentityServerAuthenticationDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     public class GroupsController : ControllerBase
@@ -41,11 +44,23 @@ namespace RedTenAngular.Controllers
         }
 
         [HttpPost]
-        public Group PostGroups(Group group)
+        public IActionResult PostGroups(Group group)
         {
+            if(this._unitOfWork.GroupUsers.UserHasGroup(this._unitOfWork.CurrentUserId))
+            {
+                return BadRequest("User already has a group");
+            }
             this._unitOfWork.Groups.AddGroup(group);
             this._unitOfWork.SaveChanges();
-            return group;
+            GroupUser groupuser = new GroupUser()
+            {
+                GroupId = group.id,
+                userId = this._unitOfWork.CurrentUserId
+            };
+            
+            this._unitOfWork.GroupUsers.AddGroupUser(groupuser);
+            this._unitOfWork.SaveChanges();
+            return Ok(group);
         }
 
         

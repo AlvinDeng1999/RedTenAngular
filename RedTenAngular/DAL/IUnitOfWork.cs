@@ -14,6 +14,7 @@ namespace DAL
 {
     public interface IUnitOfWork
     {
+        string CurrentUserId { get; }
         ICustomerRepository Customers { get; }
         IProductRepository Products { get; }
         IOrdersRepository Orders { get; }
@@ -21,6 +22,7 @@ namespace DAL
         IRoundRepository Rounds { get; }
         IGameRepository Games { get; }
         IGroupRepository Groups { get; }
+        IGroupUserRepository GroupUsers { get; }
 
         int SaveChanges();
     }

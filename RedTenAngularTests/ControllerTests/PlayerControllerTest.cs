@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using DAL.Models;
+using NUnit.Framework;
 using RedTenAngularTests.ControllerTests;
 using System;
 using System.Collections.Generic;
@@ -12,14 +13,15 @@ namespace RedTenAngularTests
     public class PlayerControllerTest : ControllerTestBase
     {
         [Test]
-        public async Task Login()
-        {
-            await base.LoginAsync();
-        }
-
         public async Task AddPlayerAsync()
         {
-            
+            Player player = new Player()
+            {
+                FirstName = "TestFirst",
+                LastName = "TestLast",
+                Email = "TestEmail@gmail.net",
+            };
+            var player2 = await PostAsync<Player>("api/Players", player);
         }
     }
 }

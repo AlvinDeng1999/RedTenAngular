@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using DAL;
 using DAL.Models;
+using IdentityServer4.AccessTokenValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -11,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace RedTenAngular.Controllers
 {
+    [Authorize(AuthenticationSchemes = IdentityServerAuthenticationDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     public class PlayersController : ControllerBase
@@ -41,11 +44,22 @@ namespace RedTenAngular.Controllers
         }
         
         [HttpPost]
-        public Player PostPlayer(Player player)
+        public IActionResult PostPlayer([Reqquired][FromBody]Player player)
         {
+            int? groupid = this._unitOfWork.GroupUsers.GetGroupId(this._unitOfWork.CurrentUserId);
+            if(groupid == null)
+            {
+                return BadRequest("Please create a group first");
+            }
             this._unitOfWork.Players.AddPlayer(player);
             this._unitOfWork.SaveChanges();
-            return player;
+
+            PlayerGroup playergroup = new PlayerGroup()
+            {
+                PlayerId = player.id,
+                GroupId = groupid.Value
+            };
+            return Ok(player);
         }
     }
 }

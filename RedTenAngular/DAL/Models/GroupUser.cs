@@ -7,11 +7,14 @@ using System.Threading.Tasks;
 
 namespace DAL.Models
 {
-    public class Round
+    public class GroupUser
     {
         [Key]
         public int id { get; set; }
         [Required]
-        public DateTime Time { get; set; }
+        [MaxLength(450)]
+        public string userId { get; set; }
+        [Required]
+        public int GroupId { get; set; }
     }
 }

@@ -24,7 +24,7 @@ namespace DAL
         IGameRepository _games;
         IPlayerRepository _players;
         IRoundRepository _rounds;
-
+        IGroupUserRepository _groupusers;
 
 
         public UnitOfWork(ApplicationDbContext context)
@@ -32,7 +32,7 @@ namespace DAL
             _context = context;
         }
 
-
+        public string CurrentUserId => _context.CurrentUserId;
 
         public ICustomerRepository Customers
         {
@@ -108,6 +108,15 @@ namespace DAL
             }
         }
 
+        public IGroupUserRepository GroupUsers
+        {
+            get
+            {
+                if (_groupusers == null)
+                    _groupusers = new GroupUserRepository(_context);
+                return _groupusers;
+            }
+        }
 
         public int SaveChanges()
         {

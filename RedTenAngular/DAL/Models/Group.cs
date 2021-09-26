@@ -14,7 +14,6 @@ namespace DAL.Models
         [Required]
         [MaxLength(100)]
         public string Name { get; set; }
-        public ICollection<Player> Players { get; set; }
         public ICollection<Game> Games { get; set; }
 
     }

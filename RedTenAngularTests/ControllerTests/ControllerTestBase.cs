@@ -25,9 +25,10 @@ namespace RedTenAngularTests.ControllerTests
         readonly HttpClient http = new HttpClient();
 
         [OneTimeSetUp]
-        public void Init()
+        public async Task Init()
         {
             http.BaseAddress = new Uri("https://localhost:44350/");
+            await LoginAsync();
         }
         protected async Task LoginAsync()
         {
@@ -47,20 +48,22 @@ namespace RedTenAngularTests.ControllerTests
                 string loginResponseString = await response.Content.ReadAsStringAsync();
                 LoginResponse loginResponse = loginResponseString.To<LoginResponse>();
                 JWT = loginResponse.access_token;
-                http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", JWT);
             }
 
         }
         
-        public async Task<T> PostAsync<T>(string path, object  body, bool successExpected = true) 
+        public async Task<T> PostAsync<T>(string path, object body, bool successExpected = true) 
         {
-            await LoginAsync();
+            http.DefaultRequestHeaders.Clear();
+            http.DefaultRequestHeaders.Add("Authorization", $"Bearer {JWT}");
             
-            var response = await  http.PostAsync(path, new StringContent(body.ToJson()));
+            HttpContent content = new StringContent(body.ToJson(), Encoding.UTF8, "application/json");
+            var response = await  http.PostAsync(path, content);
+            var json = await response.Content.ReadAsStringAsync();
+            Console.WriteLine(json);
             Assert.AreEqual(successExpected, response.IsSuccessStatusCode);
             if (response.IsSuccessStatusCode)
             {
-                var json = await response.Content.ReadAsStringAsync();
                 return json.To<T>();
             }
             return default(T);

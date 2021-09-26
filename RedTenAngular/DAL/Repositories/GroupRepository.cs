@@ -17,7 +17,6 @@ namespace DAL.Repositories
         public IEnumerable<Group> GetAllGroups()
         {
             return _appContext.Groups
-                .Include(c => c.Players)
                 .ToList();
         }
 
@@ -29,7 +28,7 @@ namespace DAL.Repositories
 
         public Group GetGroup(int id)
         {
-            return this._appContext.Groups.Where(g => g.id == id).Include(p => p.Players).Include(g => g.Games).FirstOrDefault();
+            return this._appContext.Groups.Find(id);
         }
 
         private ApplicationDbContext _appContext => (ApplicationDbContext)_context;

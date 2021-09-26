@@ -28,7 +28,8 @@ namespace DAL
         public DbSet<Game> Games { get; set; }
         public DbSet<Player> Players { get; set; }
         public DbSet<Round> Rounds { get; set; }
-
+        public DbSet<GroupUser> GroupUsers { get; set; }
+        public DbSet<PlayerGroup> PlayerGroups { get; set; }
 
 
         public ApplicationDbContext(DbContextOptions options) : base(options)

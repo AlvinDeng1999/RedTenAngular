@@ -208,6 +208,73 @@ namespace RedTenAngular.Migrations
                     b.ToTable("AppCustomers");
                 });
 
+            modelBuilder.Entity("DAL.Models.Game", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("Groupid")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("Groupid");
+
+                    b.ToTable("Games");
+                });
+
+            modelBuilder.Entity("DAL.Models.Group", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("id");
+
+                    b.ToTable("Groups");
+                });
+
+            modelBuilder.Entity("DAL.Models.GroupUser", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("GroupId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("userEmail")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("id");
+
+                    b.ToTable("GroupUsers");
+                });
+
             modelBuilder.Entity("DAL.Models.Order", b =>
                 {
                     b.Property<int>("Id")
@@ -300,6 +367,46 @@ namespace RedTenAngular.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("AppOrderDetails");
+                });
+
+            modelBuilder.Entity("DAL.Models.Player", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int?>("Groupid")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Nickname")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int?>("Roundid")
+                        .HasColumnType("int");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("Groupid");
+
+                    b.HasIndex("Roundid");
+
+                    b.ToTable("Players");
                 });
 
             modelBuilder.Entity("DAL.Models.Product", b =>
@@ -419,6 +526,26 @@ namespace RedTenAngular.Migrations
                     b.ToTable("AppProductCategories");
                 });
 
+            modelBuilder.Entity("DAL.Models.Round", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("Gameid")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Time")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("Gameid");
+
+                    b.ToTable("Rounds");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.Property<int>("Id")
@@ -523,6 +650,13 @@ namespace RedTenAngular.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("DAL.Models.Game", b =>
+                {
+                    b.HasOne("DAL.Models.Group", null)
+                        .WithMany("Games")
+                        .HasForeignKey("Groupid");
+                });
+
             modelBuilder.Entity("DAL.Models.Order", b =>
                 {
                     b.HasOne("DAL.Models.ApplicationUser", "Cashier")
@@ -559,6 +693,17 @@ namespace RedTenAngular.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("DAL.Models.Player", b =>
+                {
+                    b.HasOne("DAL.Models.Group", null)
+                        .WithMany("Players")
+                        .HasForeignKey("Groupid");
+
+                    b.HasOne("DAL.Models.Round", null)
+                        .WithMany("Players")
+                        .HasForeignKey("Roundid");
+                });
+
             modelBuilder.Entity("DAL.Models.Product", b =>
                 {
                     b.HasOne("DAL.Models.Product", "Parent")
@@ -575,6 +720,13 @@ namespace RedTenAngular.Migrations
                     b.Navigation("Parent");
 
                     b.Navigation("ProductCategory");
+                });
+
+            modelBuilder.Entity("DAL.Models.Round", b =>
+                {
+                    b.HasOne("DAL.Models.Game", null)
+                        .WithMany("Rounds")
+                        .HasForeignKey("Gameid");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -649,6 +801,18 @@ namespace RedTenAngular.Migrations
                     b.Navigation("Orders");
                 });
 
+            modelBuilder.Entity("DAL.Models.Game", b =>
+                {
+                    b.Navigation("Rounds");
+                });
+
+            modelBuilder.Entity("DAL.Models.Group", b =>
+                {
+                    b.Navigation("Games");
+
+                    b.Navigation("Players");
+                });
+
             modelBuilder.Entity("DAL.Models.Order", b =>
                 {
                     b.Navigation("OrderDetails");
@@ -664,6 +828,11 @@ namespace RedTenAngular.Migrations
             modelBuilder.Entity("DAL.Models.ProductCategory", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("DAL.Models.Round", b =>
+                {
+                    b.Navigation("Players");
                 });
 #pragma warning restore 612, 618
         }

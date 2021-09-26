@@ -29,7 +29,7 @@ namespace DAL.Repositories
 
         public Round GetRound(int id)
         {
-            return this._appContext.Rounds.Where(r => r.id == id).Include(r => r.Players).FirstOrDefault();
+            return this._appContext.Rounds.Where(r => r.id == id).FirstOrDefault();
         }
     }
 }
