@@ -14,4 +14,7 @@ export class AddGroupComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  AddGroup() {
+
+  }
 }

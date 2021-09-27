@@ -20,9 +20,9 @@ namespace RedTenAngularTests.ControllerTests
         {
             Player player = new Player()
             {
-                FirstName = "SecondTest",
-                LastName = "SecondTest",
-                Email = "SecondTest2@gmail.com",
+                FirstName = "ThirdTest",
+                LastName = "ThirdTest",
+                Email = "Test3@gmail.com",
             };
             _testAddedPlayer = await PostAsync<Player>("api/Players", player);
         }
@@ -46,7 +46,7 @@ namespace RedTenAngularTests.ControllerTests
             {
                 using (var conn = new SqlConnection(_databaseCoonnection))
                 {
-                    await conn.ExecuteSqlAsync("delete from player where id=@id", new { id = _testAddedPlayer.id });
+                    await conn.ExecuteSqlAsync("delete from players where id=@id", new { id = _testAddedPlayer.id });
                 }
             }
         }

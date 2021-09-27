@@ -118,7 +118,11 @@ namespace RedTenAngular
             // Add cors
             services.AddCors();
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews()
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+                }); ;
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

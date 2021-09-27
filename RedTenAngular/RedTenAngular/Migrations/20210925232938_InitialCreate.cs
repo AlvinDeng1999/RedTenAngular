@@ -110,7 +110,7 @@ namespace RedTenAngular.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PlayerGroup",
+                name: "PlayerGroups",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -120,15 +120,15 @@ namespace RedTenAngular.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PlayerGroup_ID", x => x.Id);
+                    table.PrimaryKey("PK_PlayerGroups_ID", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PlayerGroup_Player",
+                        name: "FK_PlayerGroups_Player",
                         column: x => x.PlayerId,
                         principalTable: "Players",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PlayerGroup_Group",
+                        name: "FK_PlayerGroups_Group",
                         column: x => x.GroupId,
                         principalTable: "Groups",
                         principalColumn: "Id",

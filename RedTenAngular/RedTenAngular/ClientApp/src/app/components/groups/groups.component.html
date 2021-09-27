@@ -1,9 +1,20 @@
 <div class="container">
-  <header class="pageHeader">
-    <h3>My Groups</h3>
-  </header>
-  <div class="reduced-font" [@fadeInOut]>
-    <button type="button" class="btn btn-primary" data-toggle="modal" (click)="addGroup()">Add Group</button>
+  <div>
+    <header class="pageHeader">
+      <h3 class="float-left">My Groups</h3>
+      <button *ngIf="groups.length < 1" type="button" class="btn btn-primary float-right" data-toggle="modal" (click)="addGroup()">Add Group</button>
+    </header>
+  </div>
+  <div class="reduced-font" [@fadeInOut] *ngIf="groups.length > 0" >
+    <div style="padding-top: 70px">
+      <div class="float-left">
+        <h4>{{ groups[0].name }}</h4>
+        <h6>Group ID: {{ groups[0].id }}</h6>
+      </div>
+      <div class="float-right">
+        <button class="btn btn-primary">Edit</button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -14,7 +25,16 @@
         <h3>New Group</h3>
       </div>
       <div class="modal-body">
-        <app-add-group></app-add-group>
+        <form *ngIf="formResetToggle" name="groupEditorForm" #f="ngForm" (ngSubmit)="saveGroup()">
+          <div class="form-group">
+            <label for="groupName">Group Name</label>
+            <input class="form-control" type="text" id="groupName" name="groupName"placeholder="Enter Group Name" [(ngModel)]="groupEdit.name" #groupName="ngModel"/>
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary float-left">Save</button>
+            <button type="button" class="btn btn-secondary float-right" (click)="cancelGroup()">Cancel</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
