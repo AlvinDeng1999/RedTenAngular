@@ -20,10 +20,17 @@ namespace DAL.Repositories
             this._appContext.SaveChanges();
         }
 
-        public IEnumerable<Player> GetAllPlayers()
+        public IEnumerable<Player> GetAllPlayers(string userId)
         {
-            return _appContext.Players
-                .ToList();
+            var gid = _appContext.GroupUsers.Where(gu => gu.userId == userId).FirstOrDefault()?.GroupId;
+
+            var players = from playerGroup in _appContext.PlayerGroups
+                          join player in _appContext.Players
+                          on playerGroup.PlayerId equals player.id
+                          where playerGroup.GroupId == gid
+                          select player;
+
+            return players;
         }
 
         public Player GetPlayer(int id)

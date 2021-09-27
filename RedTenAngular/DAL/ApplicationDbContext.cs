@@ -30,7 +30,7 @@ namespace DAL
         public DbSet<Round> Rounds { get; set; }
         public DbSet<GroupUser> GroupUsers { get; set; }
         public DbSet<PlayerGroup> PlayerGroups { get; set; }
-
+        public DbSet<RoundPlayer> RoundPlayers { get; set; }
 
         public ApplicationDbContext(DbContextOptions options) : base(options)
         { }

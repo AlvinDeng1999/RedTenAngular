@@ -1,7 +1,9 @@
 ﻿using DAL.Models;
+using Insight.Database;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,11 +16,21 @@ namespace RedTenAngularTests.ControllerTests
         [Test]
         public async Task AddGroupAsync()
         {
+            if (_testCreatedGroup != null)
+            {
+                using (var conn = new SqlConnection(_databaseCoonnection))
+                {
+                    await conn.ExecuteSqlAsync("delete from groups where id=@id", new { id = _testCreatedGroup.id });
+                }
+            }
             Group group = new Group()
             {
                 Name = "TestGroup"
             };
-            var createGroup = await PostAsync<Group>("api/Groups", group);
+            _testCreatedGroup = await PostAsync<Group>("api/Groups", group);
+
+            var r = await PostAsync<Group>("api/Groups", group, successExpected:false);
+            Assert.IsNull(r);
         }
         [Test]
         public async Task GetGroupAsync()

@@ -9,7 +9,7 @@ namespace DAL.Repositories.Interfaces
 {
     public interface IPlayerRepository : IRepository<Player>
     {
-        IEnumerable<Player> GetAllPlayers();
+        IEnumerable<Player> GetAllPlayers(string userId);
         void AddPlayer(Player player);
         public Player GetPlayer(int id);
     }

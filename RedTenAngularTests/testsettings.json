@@ -1,0 +1,10 @@
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=localhost;Database=RedTenAngular;Trusted_Connection=True;MultipleActiveResultSets=true"
+  },
+  "AppSettings": {
+    "WebAppRootUrl": "https://localhost:44350/",
+    "UserName": "user",
+    "Password": "tempP@ss123"
+  }
+}

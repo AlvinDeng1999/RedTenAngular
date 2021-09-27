@@ -84,7 +84,7 @@ namespace RedTenAngular.Migrations
             
 
             migrationBuilder.CreateTable(
-                name: "RoundPlayer",
+                name: "RoundPlayers",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -94,15 +94,15 @@ namespace RedTenAngular.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RoundPlayer_ID", x => x.Id);
+                    table.PrimaryKey("PK_RoundPlayers_ID", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_RoundPlayer_Player",
+                        name: "FK_RoundPlayers_Player",
                         column: x => x.PlayerId,
                         principalTable: "Players",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_RoundPlayer_Round",
+                        name: "FK_RoundPlayers_Round",
                         column: x => x.RoundId,
                         principalTable: "Rounds",
                         principalColumn: "Id",
@@ -126,13 +126,13 @@ namespace RedTenAngular.Migrations
                         column: x => x.PlayerId,
                         principalTable: "Players",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_PlayerGroup_Group",
                         column: x => x.GroupId,
                         principalTable: "Groups",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -317,7 +317,7 @@ namespace RedTenAngular.Migrations
                         column: x => x.GroupId,
                         principalTable: "Groups",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
 

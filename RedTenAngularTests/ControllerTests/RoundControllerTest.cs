@@ -1,5 +1,6 @@
 ﻿using DAL.Models;
 using NUnit.Framework;
+using RedTenAngular.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,11 +15,22 @@ namespace RedTenAngularTests.ControllerTests
         [Test]   
         public async Task AddRoundAsync()
         {
-            Round round = new Round()
+            List<PlayerViewModel> playerlist = new List<PlayerViewModel>();
+            IEnumerable<Player> players = await GetAsync<IEnumerable<Player>>("api/Players");
+            playerlist = players.Select(p => new PlayerViewModel() {
+                PlayerId = p.id,
+                Score = 2
+            }).ToList();
+            playerlist.Last().Score = 0;
+            RoundViewModel round = new RoundViewModel()
             {
-                Time = DateTime.Now
+                Time = DateTime.Now,
+                Players = playerlist
             };
-            var createRound = await PostAsync<Round>("api/Rounds", round);
+            var createRound = await PostAsync<RoundViewModel>("api/Rounds", round);
+            Assert.IsNotNull(createRound);
+
+
         }
     }
 }

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using RedTenAngular.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,12 +45,20 @@ namespace RedTenAngular.Controllers
         }
 
         [HttpPost]
-        public IActionResult PostRound(Round round)
+        public IActionResult PostRound(RoundViewModel round)
         {
             int? recentGameId = this._unitOfWork.Games.GetGameId(this._unitOfWork.CurrentUserId);
             if (recentGameId == null) return BadRequest("Please create a game first");
             round.GameId = recentGameId.Value;
             this._unitOfWork.Rounds.AddRound(round);
+            this._unitOfWork.SaveChanges();
+
+            var roundplayers = round.Players.Select(p => new RoundPlayer() {
+                RoundId = round.id,
+                PlayerId = p.PlayerId,
+                Score = p.Score
+            });
+            this._unitOfWork.RoundPlayers.AddRoundPlayers(roundplayers);
             this._unitOfWork.SaveChanges();
             return Ok(round);
         }

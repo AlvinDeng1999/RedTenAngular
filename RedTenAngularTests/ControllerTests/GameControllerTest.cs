@@ -22,5 +22,16 @@ namespace RedTenAngularTests.ControllerTests
             };
             var status = await PostAsync<Game>("api/Games", game);
         }
+        [Test]
+        public async Task GetGame()
+        {
+            await AddGame();
+            var games = await GetAsync<IEnumerable<Game>>("api/Games");
+            Assert.IsNotNull(games);
+
+            var game = await GetAsync<Game>($"api/Games/{games.First().id}");
+            Assert.IsNotNull(game);  
+        }
+        
     }
 }

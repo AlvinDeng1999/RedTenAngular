@@ -32,7 +32,7 @@ namespace RedTenAngular.Controllers
         [HttpGet]
         public IEnumerable<Player> GetPlayers()
         {
-            var players = this._unitOfWork.Players.GetAllPlayers();
+            var players = this._unitOfWork.Players.GetAllPlayers(_unitOfWork.CurrentUserId);
             return players;
         }
 

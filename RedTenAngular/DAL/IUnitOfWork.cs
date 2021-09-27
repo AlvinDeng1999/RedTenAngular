@@ -23,7 +23,7 @@ namespace DAL
         IGameRepository Games { get; }
         IGroupRepository Groups { get; }
         IGroupUserRepository GroupUsers { get; }
-
+        IRoundPlayerRepository RoundPlayers { get; }
         int SaveChanges();
     }
 }
