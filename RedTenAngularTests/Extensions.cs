@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Json;
 
 namespace RedTenAngularTests
 {
@@ -16,7 +17,11 @@ namespace RedTenAngularTests
         internal static T To<T>(this string json)
         {
             if (string.IsNullOrEmpty(json)) return default;
-            return JsonConvert.DeserializeObject<T>(json);
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+            return System.Text.Json.JsonSerializer.Deserialize<T>(json, options);
         }
     }
 }

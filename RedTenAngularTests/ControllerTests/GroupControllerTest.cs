@@ -20,5 +20,14 @@ namespace RedTenAngularTests.ControllerTests
             };
             var createGroup = await PostAsync<Group>("api/Groups", group);
         }
+        [Test]
+        public async Task GetGroupAsync()
+        {
+            var groups = await GetAsync<IEnumerable<Group>>("api/Groups");
+            Assert.IsNotNull(groups);
+
+            var group = await GetAsync<Group>($"api/Groups/{groups.First().id}");
+            Assert.IsNotNull(group);
+        }
     }
 }

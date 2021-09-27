@@ -71,7 +71,8 @@ namespace RedTenAngularTests.ControllerTests
 
         public async Task<T> GetAsync<T>(string path, Dictionary<string, string> queryParams=null, bool successExpected = true)
         {
-            await LoginAsync();
+            http.DefaultRequestHeaders.Clear();
+            http.DefaultRequestHeaders.Add("Authorization", $"Bearer {JWT}");
 
             if (queryParams != null && queryParams.Any())
             {
@@ -85,10 +86,12 @@ namespace RedTenAngularTests.ControllerTests
                 path += query;
             }
             var response = await http.GetAsync(path);
+            var json = await response.Content.ReadAsStringAsync();
+            Console.WriteLine(json);
             Assert.AreEqual(successExpected, response.IsSuccessStatusCode);
             if (response.IsSuccessStatusCode)
             {
-                var json = await response.Content.ReadAsStringAsync();
+                
                 return json.To<T>();
             }
             return default(T);

@@ -16,7 +16,7 @@ namespace DAL.Repositories
 
         public IEnumerable<Group> GetAllGroups()
         {
-            return _appContext.Groups
+            return _appContext.Groups.Include(g=>g.Games.OrderByDescending(gm=>gm.Date).Take(10))
                 .ToList();
         }
 
