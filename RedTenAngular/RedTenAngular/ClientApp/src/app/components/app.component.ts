@@ -4,7 +4,7 @@
 // =============================
 
 import { Component, ViewEncapsulation, OnInit, OnDestroy, ViewChildren, AfterViewInit, QueryList, ElementRef } from '@angular/core';
-import { Router, NavigationStart } from '@angular/router';
+import { Router, NavigationStart, NavigationEnd } from '@angular/router';
 import { ToastaService, ToastaConfig, ToastOptions, ToastData } from 'ngx-toasta';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 
@@ -80,6 +80,20 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     this.toastaConfig.showDuration = false;
 
     this.appTitleService.appName = this.appTitle;
+
+    router.events.subscribe((event: any) => {
+      if (event instanceof NavigationStart) {
+        //this.menuState = 'out';
+        console.log("start")
+      }
+
+      if (event instanceof NavigationEnd) {
+        // Hide loading indicator
+        console.log("end");
+      }
+
+ 
+    });
   }
 
 
@@ -99,7 +113,6 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
       });
     });
   }
-
 
   onLoginModalShown() {
     this.alertService.showStickyMessage('Session Expired', 'Your Session has expired. Please log in again', MessageSeverity.info);

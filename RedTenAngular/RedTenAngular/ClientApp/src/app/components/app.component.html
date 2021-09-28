@@ -11,28 +11,28 @@
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      <div *ngIf="isUserLoggedIn" class="app-component collapse navbar-collapse menuItemsContainer">
+      <div *ngIf="isUserLoggedIn" class="app-component collapse navbar-collapse menuItemsContainer" data-toggle="collapse" data-target="#navbarSupportedContent">
         <ul class="app-component nav nav-pills flex-column flex-lg-row mr-auto">
           <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-            <a class="nav-link" routerLink=""><i class="fa fa-home"></i></a>
+            <a class="nav-link" routerLink="" data-toggle="collapse" data-target=".navbar-collapse.show"><i class="fa fa-home"></i></a>
           </li>
           <li class="nav-item" routerLinkActive="active" *ngIf="canViewCustomers">
-            <a class="nav-link" routerLink="/customers">{{'mainMenu.Customers' | translate}}</a>
+            <a class="nav-link" routerLink="/customers" data-toggle="collapse" data-target=".navbar-collapse.show">{{'mainMenu.Customers' | translate}}</a>
           </li>
           <li class="nav-item" routerLinkActive="active">
-            <a class="nav-link" routerLink="/groups">Groups</a>
+            <a class="nav-link" routerLink="/groups" data-toggle="collapse" data-target=".navbar-collapse.show">Groups</a>
           </li>
           <li class="nav-item" routerLinkActive="active">
-            <a class="nav-link" routerLink="/games">Games</a>
+            <a class="nav-link" routerLink="/games" data-toggle="collapse" data-target=".navbar-collapse.show">Games</a>
           </li>
           <li class="nav-item" routerLinkActive="active">
-            <a class="nav-link" routerLink="/about">{{'mainMenu.About' | translate}}</a>
+            <a class="nav-link" routerLink="/about" data-toggle="collapse" data-target=".navbar-collapse.show">{{'mainMenu.About' | translate}}</a>
           </li>
 
         </ul>
         <ul class="app-component nav nav-pills flex-column flex-lg-row mr-md-2">
           <li class="nav-item" routerLinkActive="active">
-            <a class="nav-link" routerLink="/settings"><i class="fa fa-cog"></i></a>
+            <a class="nav-link" routerLink="/settings" data-toggle="collapse" data-target=".navbar-collapse.show"><i class="fa fa-cog"></i></a>
           </li>
         </ul>
         <span class="app-component navbar-text notifications-popup">{{'app.Welcome' | translate}}</span>
