@@ -54,17 +54,18 @@ export class GroupsComponent implements OnInit {
     this.alertService.startLoadingMessage();
     console.log("save group");
     console.log(this.groupEdit.name);
-    this.groupService.createGroup(this.groupEdit).subscribe(result => function () {
-      this.alertService.showStickyMessage('Group saved');
-      this.alertService.stopLoadingMessage();
-    },
-      error => function () {
-        this.alertService.showStickyMessage('Save Error','Group could not be created', MessageSeverity.error, error);
-        this.alertService.stopLoadingMessage();
-    });
+    this.groupService.createGroup(this.groupEdit).subscribe(result => this.onSaveSuccess(result), error => this.onSaveFailure(error));
     this.groupModal.hide();
   }
-
+  private onSaveSuccess(group: Group) {
+    this.groups.push(group);
+    this.alertService.showStickyMessage('Group saved');
+    this.alertService.stopLoadingMessage();
+  }
+  private onSaveFailure(error: any) {
+    this.alertService.stopLoadingMessage();
+    this.alertService.showStickyMessage('Save Error', 'Failed to save group', MessageSeverity.error, error);
+  }
   cancelGroup() {
     this.groupModal.hide();
     console.log("cancel group")
