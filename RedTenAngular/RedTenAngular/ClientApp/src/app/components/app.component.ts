@@ -34,7 +34,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   shouldShowLoginModal: boolean;
   removePrebootScreen: boolean;
   newNotificationCount = 0;
-  appTitle = 'RedTenAngular';
+  appTitle = 'Red 10 Score Tracker';
 
   stickyToasties: number[] = [];
 
