@@ -1,5 +1,5 @@
-﻿<div>
-    <ngx-datatable class="material colored-header sm table-hover"
+<div>
+    <!--<ngx-datatable class="material colored-header sm table-hover"
                    [loadingIndicator]="loadingIndicator"
                    [rows]="rows"
                    [rowHeight]="35"
@@ -17,9 +17,9 @@
 
     <ng-template #statusTemplate>
         <span></span>
-    </ng-template>
+    </ng-template>-->
 
-    <ng-template #dateTemplate let-row="row" let-value="value">
+    <!--<ng-template #dateTemplate let-row="row" let-value="value">
         <span [class.unread]="!row.isRead" attr.title="{{getPrintedDate(value)}}">
             {{getPrintedDate(value)}}
         </span>
@@ -35,14 +35,14 @@
         <span [class.unread]="!row.isRead" attr.title="{{row.header}}">
             {{value}}
         </span>
-    </ng-template>
+    </ng-template>-->
 
 
-    <ng-template #actionsTemplate let-row="row">
+    <!--<ng-template #actionsTemplate let-row="row">
         <a class="btn btn-link btn-sm" href="javascript:;" tooltip="{{'notifications.Delete' | translate}}" container="body" (click)="deleteNotification(row)"><i class="fa fa-times"></i></a>
         <a class="btn btn-link btn-sm" href="javascript:;" tooltip="{{'notifications.Pin' | translate}}" co container="body" (click)="togglePin(row)">
             <i *ngIf="row.isPinned" class="fa fa-thumb-tack"></i>
             <i *ngIf="!row.isPinned" class="fa fa-thumb-tack fa-rotate-90"></i>
         </a>
-    </ng-template>
+    </ng-template>-->
 </div>
