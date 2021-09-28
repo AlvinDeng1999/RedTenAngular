@@ -9,7 +9,7 @@ namespace DAL.Repositories.Interfaces
 {
     public interface IGroupRepository : IRepository<Group>
     {
-        IEnumerable<Group> GetAllGroups();
+        IEnumerable<Group> GetAllGroups(string userid);
         void AddGroup(Group group);
         Group GetGroup(int id);
     }

@@ -24,6 +24,7 @@ namespace DAL
         IGroupRepository Groups { get; }
         IGroupUserRepository GroupUsers { get; }
         IRoundPlayerRepository RoundPlayers { get; }
+        IPlayerGroupRepository PlayerGroups { get; }
         int SaveChanges();
     }
 }

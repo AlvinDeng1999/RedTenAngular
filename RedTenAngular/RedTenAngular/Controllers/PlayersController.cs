@@ -59,6 +59,9 @@ namespace RedTenAngular.Controllers
                 PlayerId = player.id,
                 GroupId = groupid.Value
             };
+
+            _unitOfWork.PlayerGroups.AddPlayerGroup(playergroup);
+            _unitOfWork.SaveChanges();
             return Ok(player);
         }
     }

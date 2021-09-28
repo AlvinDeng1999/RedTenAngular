@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using RedTenAngular.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,10 +31,12 @@ namespace RedTenAngular.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Group> GetGroups()
+        public IEnumerable<GroupViewModel> GetGroups()
         {
-            var groups = _unitOfWork.Groups.GetAllGroups();
-            return groups;
+            var groups = _unitOfWork.Groups.GetAllGroups(_unitOfWork.CurrentUserId).ToList();
+            var players = _unitOfWork.Players.GetAllPlayers(_unitOfWork.CurrentUserId).ToList();
+            var retModel = groups.Select(g => new GroupViewModel(g) { Players = players }).ToList();
+            return retModel;
         }
 
         [HttpGet("{id}")]

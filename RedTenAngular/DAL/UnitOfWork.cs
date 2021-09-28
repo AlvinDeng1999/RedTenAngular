@@ -26,6 +26,7 @@ namespace DAL
         IRoundRepository _rounds;
         IGroupUserRepository _groupusers;
         IRoundPlayerRepository _roundplayers;
+        IPlayerGroupRepository _playergroups;
 
 
         public UnitOfWork(ApplicationDbContext context)
@@ -126,6 +127,16 @@ namespace DAL
                 if (_roundplayers == null)
                     _roundplayers = new RoundPlayerRepository(_context);
                 return _roundplayers;
+            }
+        }
+
+        public IPlayerGroupRepository PlayerGroups
+        {
+            get
+            {
+                if (_playergroups == null)
+                    _playergroups = new PlayerGroupRepository(_context);
+                return _playergroups;
             }
         }
 
