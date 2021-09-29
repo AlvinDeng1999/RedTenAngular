@@ -69,6 +69,7 @@ import { AddGameComponent } from './components/add-game/add-game.component';
 import { GroupsComponent } from './components/groups/groups.component';
 import { AddGroupComponent } from './components/add-group/add-group.component';
 
+import { AgGridModule } from 'ag-grid-angular';
 
 @NgModule({
   imports: [
@@ -77,6 +78,7 @@ import { AddGroupComponent } from './components/add-group/add-group.component';
     HttpClientModule,
     FormsModule,
     AppRoutingModule,
+    AgGridModule.withComponents([]),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

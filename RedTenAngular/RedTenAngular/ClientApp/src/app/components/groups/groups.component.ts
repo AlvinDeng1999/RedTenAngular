@@ -3,6 +3,7 @@ import { fadeInOut } from '../../services/animations';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { GroupService } from '../../services/group.service';
 import { Group } from '../../models/group.model';
+import { Player } from '../../models/player.model';
 import { AlertService, MessageSeverity } from '../../services/alert.service';
 
 @Component({
@@ -15,8 +16,27 @@ export class GroupsComponent implements OnInit {
   @ViewChild('groupModal', { static: true })
   groupModal: ModalDirective;
   formResetToggle: boolean = true;
-  groupEdit: Group = { id: 0, name: "" };
+  groupEdit: Group = { id: 0, name: "", players: [] };
   groups: Group[] = [];
+  viewPlayerToggle: boolean = false;
+  player: Player = {
+    id: 12,
+    firstName: 'firsttest',
+    lastName: 'lasttest',
+    nickname: 'nicktest',
+    email: 'emailtest'
+  };
+
+  defaultColDef = true;
+
+  columnDefs = [
+    { field: 'id' },
+    { field: 'firstName' },
+    { field: 'lastName' },
+    { field: 'nickName' },
+    { field: 'email' }
+  ];
+  rowData = [];
 
   constructor(private groupService: GroupService, private alertService: AlertService ) { }
 
@@ -32,6 +52,7 @@ export class GroupsComponent implements OnInit {
   private onLoadSuccess(groups: Group[]) {
     this.groups = groups
     this.alertService.stopLoadingMessage();
+    if(groups.length > 0) this.rowData = groups[0].players;
   }
 
   private onLoadFail(error: any) {
@@ -45,7 +66,7 @@ export class GroupsComponent implements OnInit {
 
     setTimeout(() => {
       this.formResetToggle = true;
-      this.groupEdit = {id:0, name:""};
+      this.groupEdit = {id:0, name:"", players: []};
       this.groupModal.show();
     });
   }
@@ -54,20 +75,27 @@ export class GroupsComponent implements OnInit {
     this.alertService.startLoadingMessage();
     console.log("save group");
     console.log(this.groupEdit.name);
-    this.groupService.createGroup(this.groupEdit).subscribe(result => this.onSaveSuccess(result), error => this.onSaveFailure(error));
+    this.groupService.createGroup(this.groupEdit).subscribe(result =>  {
+      this.groups.push(result);
+      this.alertService.showStickyMessage('Group saved');
+      this.alertService.stopLoadingMessage();
+    },
+      error =>  {
+        this.alertService.showStickyMessage('Save Error','Group could not be created', MessageSeverity.error, error);
+        this.alertService.stopLoadingMessage();
+    });
     this.groupModal.hide();
   }
   private onSaveSuccess(group: Group) {
-    this.groups.push(group);
-    this.alertService.showStickyMessage('Group saved');
-    this.alertService.stopLoadingMessage();
+
   }
-  private onSaveFailure(error: any) {
-    this.alertService.stopLoadingMessage();
-    this.alertService.showStickyMessage('Save Error', 'Failed to save group', MessageSeverity.error, error);
-  }
+
   cancelGroup() {
     this.groupModal.hide();
     console.log("cancel group")
+  }
+
+  togglePlayers() {
+    this.viewPlayerToggle = !this.viewPlayerToggle;
   }
 }

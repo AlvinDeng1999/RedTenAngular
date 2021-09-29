@@ -33,6 +33,7 @@
     "@ng-select/ng-select": "^6.1.0",
     "@ngx-translate/core": "^13.0.0",
     "@swimlane/ngx-datatable": "^19.0.0",
+    "ag-grid-angular": "^26.0.0",
     "angular-oauth2-oidc": "^10.0.3",
     "bootstrap": "^4.6.0",
     "bootstrap-toggle": "^2.2.2",
