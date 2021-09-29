@@ -3,6 +3,7 @@ import { fadeInOut } from '../../services/animations';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { GroupService } from '../../services/group.service';
 import { Group } from '../../models/group.model';
+import { PlayerService } from '../../services/player.service';
 import { Player } from '../../models/player.model';
 import { AlertService, MessageSeverity } from '../../services/alert.service';
 
@@ -15,30 +16,43 @@ import { AlertService, MessageSeverity } from '../../services/alert.service';
 export class GroupsComponent implements OnInit {
   @ViewChild('groupModal', { static: true })
   groupModal: ModalDirective;
+  @ViewChild('playerModal', { static: true })
+  playerModal: ModalDirective;
+
   formResetToggle: boolean = true;
-  groupEdit: Group = { id: 0, name: "", players: [] };
+  groupEdit: Group = new Group();
+  playerEdit: Player = new Player();
   groups: Group[] = [];
   viewPlayerToggle: boolean = false;
-  player: Player = {
-    id: 12,
-    firstName: 'firsttest',
-    lastName: 'lasttest',
-    nickname: 'nicktest',
-    email: 'emailtest'
-  };
+  
 
   defaultColDef = true;
 
   columnDefs = [
-    { field: 'id' },
+    {
+      field: 'id',
+      hide: true,
+      suppressToolPanel: true},
     { field: 'firstName' },
     { field: 'lastName' },
-    { field: 'nickName' },
-    { field: 'email' }
+    {
+      field: 'nickName',
+      hide: true,
+      suppressToolPanel: true },
+    {
+      field: 'email',
+      hide: true,
+      suppressToolPanel: true    }
   ];
   rowData = [];
-
-  constructor(private groupService: GroupService, private alertService: AlertService ) { }
+  private gridApi: any;
+  private gridColumnApi: any;
+  onGridReady(params) {
+    this.gridApi = params.api;
+    this.gridColumnApi = params.columnApi;
+    this.gridApi.sizeColumnsToFit();
+  }
+  constructor(private groupService: GroupService, private alertService: AlertService, private playerService: PlayerService ) { }
 
   ngOnInit(): void {
     this.loadGroups();
@@ -97,5 +111,38 @@ export class GroupsComponent implements OnInit {
 
   togglePlayers() {
     this.viewPlayerToggle = !this.viewPlayerToggle;
+  }
+
+  addPlayer() {
+    this.formResetToggle = false;
+
+    setTimeout(() => {
+      this.formResetToggle = true;
+      this.playerEdit = new Player();
+      this.playerModal.show();
+    });
+  }
+
+  savePlayer() {
+    this.alertService.startLoadingMessage();
+    console.log("save group");
+    console.log(this.playerEdit.firstName);
+    this.playerService.createPlayer(this.playerEdit).subscribe(result => {
+      this.groups[0].players.push(result);
+      this.rowData = this.groups[0].players;
+      this.gridApi.updateRowData({ add: [result] });
+      this.alertService.showStickyMessage('Player Saved');
+      this.alertService.stopLoadingMessage();
+    },
+      error => {
+        this.alertService.showStickyMessage('Save Error', 'Player could not be created', MessageSeverity.error, error);
+        this.alertService.stopLoadingMessage();
+      });
+
+    this.playerModal.hide();
+  }
+  cancelPlayer() {
+    this.playerModal.hide();
+    console.log("cancel group")
   }
 }
