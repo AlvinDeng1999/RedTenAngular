@@ -1,9 +1,16 @@
 <div class="container">
   <header class="pageHeader">
-    <h3>My Games</h3>
+    <h3 class="float-left">My Games</h3>
+    <button type="button" class="btn btn-primary float-right" data-toggle="modal" (click)="addGame()">New Game</button>
   </header>
-  <div class="reduced-font" [@fadeInOut]>
-    <button type="button" class="btn btn-primary" data-toggle="modal" (click)="addGame()">Add Game</button>
+  <div *ngIf="games.length > 0" class="reduced-font flex-grow-1" [@fadeInOut] style="padding-top: 70px">
+    <ag-grid-angular style="width: 100%; height: 300px;"
+                     class="ag-theme-alpine"
+                     [rowData]="rowData"
+                     [columnDefs]="columnDefs"
+                     [defaultColDef]="defaultColDef"
+                     (gridReady)="onGridReady($event)">
+    </ag-grid-angular>
   </div>
 </div>
 
@@ -14,7 +21,21 @@
         <h3>New Game</h3>
       </div>
       <div class="modal-body">
-        <app-add-game></app-add-game>
+        <form *ngIf="formResetToggle" name="gameEditorForm" #f="ngForm" (ngSubmit)="saveGame()">
+          
+          <div class="form-group">
+            <label for="gameLocation">Location</label>
+            <input class="form-control" type="text" id="gameLocation" name="gameLocation" placeholder="Enter Location" [(ngModel)]="gameEdit.location" #gameLocation="ngModel"/>
+          </div>
+          <div class="form-group">
+            <label for="gameDate">Date</label>
+            <input class="form-control" type="datetime-local" id="gameDate" name="gameDate" [(ngModel)]="gameEdit.date" #gameDate="ngModel"/>
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-left">Save</button>
+            <button type="button" class="btn btn-secondary btn-right" (click)="cancelGame()">Cancel</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>

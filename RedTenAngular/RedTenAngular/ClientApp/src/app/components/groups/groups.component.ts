@@ -13,6 +13,7 @@ import { AlertService, MessageSeverity } from '../../services/alert.service';
   styleUrls: ['./groups.component.scss'],
   animations: [fadeInOut]
 })
+
 export class GroupsComponent implements OnInit {
   @ViewChild('groupModal', { static: true })
   groupModal: ModalDirective;
