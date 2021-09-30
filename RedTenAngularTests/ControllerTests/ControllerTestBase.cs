@@ -92,7 +92,24 @@ namespace RedTenAngularTests.ControllerTests
             }
 
         }
-        
+        public async Task<T> PutAsync<T>(string path, object body, bool successExpected = true)
+        {
+            _http.DefaultRequestHeaders.Clear();
+            _http.DefaultRequestHeaders.Add("Authorization", $"Bearer {JWT}");
+
+            HttpContent content = new StringContent(body.ToJson(), Encoding.UTF8, "application/json");
+            var response = await _http.PutAsync(path, content);
+            var json = await response.Content.ReadAsStringAsync();
+            Console.WriteLine(json);
+            Assert.AreEqual(successExpected, response.IsSuccessStatusCode);
+            if(response.IsSuccessStatusCode)
+            {
+                return json.To<T>();
+            }
+            return default(T);
+        }
+
+
         public async Task<T> PostAsync<T>(string path, object body, bool successExpected = true) 
         {
             _http.DefaultRequestHeaders.Clear();
@@ -137,5 +154,7 @@ namespace RedTenAngularTests.ControllerTests
             }
             return default(T);
         }
+
+        
     }
 }

@@ -37,6 +37,17 @@ namespace DAL.Repositories
             return this._appContext.Games.Where(g => g.GroupId == groupid && g.Status == "Open").OrderByDescending(g => g.Date).FirstOrDefault()?.id;
         }
 
+        public void UpdateGame(Game game)
+        {
+            var gameInDb = this._appContext.Games.Find(game.id);
+            gameInDb.Status = game.Status;
+            gameInDb.Date = game.Date;
+            gameInDb.Location = game.Location;
+            gameInDb.Rounds = game.Rounds;
+            this._appContext.Games.Add(gameInDb).State = EntityState.Modified; //Update(game);
+            this._appContext.SaveChanges();
+        }
+
         private ApplicationDbContext _appContext => (ApplicationDbContext)_context;
     }
 }

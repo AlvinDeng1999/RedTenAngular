@@ -11,16 +11,18 @@ namespace RedTenAngularTests.ControllerTests
     [TestFixture]
     public class GameControllerTest : ControllerTestBase
     {
+        Game _game;
         [Test]
         public async Task AddGame()
         {
-            Game game = new Game()
+            _game = new Game()
             {
                 Location = "Home",
                 Date = DateTime.Now,
                 Status = "Open"
             };
-            var status = await PostAsync<Game>("api/Games", game);
+            var status = await PostAsync<Game>("api/Games", _game);
+            _game = status;
         }
         [Test]
         public async Task GetGame()
@@ -33,5 +35,15 @@ namespace RedTenAngularTests.ControllerTests
             Assert.IsNotNull(game);  
         }
         
+        [Test]
+        public async Task UpdateGame()
+        {
+            await AddGame();
+            int badGroupId = this._game.GroupId - 1;
+            _game.Status = "Closed";
+            var game = await PutAsync<Game>("api/Games/", _game);
+            Assert.IsNotNull(game);
+            Assert.AreEqual("Closed", game.Status);
+        }
     }
 }

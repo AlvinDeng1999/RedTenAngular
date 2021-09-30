@@ -20,6 +20,8 @@ export class GamesComponent implements OnInit {
 
   games: Game[] = [];
   groups: Group[];
+  open: Game[] = [];
+  closed: Game[] = [];
 
   gameEdit: Game = new Game();
   formResetToggle: boolean = true;
@@ -57,6 +59,7 @@ export class GamesComponent implements OnInit {
   rowData = [];
   private gridApi: any;
   private gridColumnApi: any;
+  private rowSelection = 'single';
   onGridReady(params) {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;

@@ -13,5 +13,6 @@ namespace DAL.Repositories.Interfaces
         void AddGame(Game game);
         Game GetGame(int id);
         int? GetGameId(string userId);
+        void UpdateGame(Game game);
     }
 }
