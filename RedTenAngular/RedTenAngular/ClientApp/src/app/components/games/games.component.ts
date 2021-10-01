@@ -157,6 +157,10 @@ export class GamesComponent implements OnInit {
     });
   }
 
+  cancelCancel() {
+    this.closeModal.hide();
+  }
+
   confirmClose() {
     this.alertService.startLoadingMessage();
     this.open.status = 'Closed';
