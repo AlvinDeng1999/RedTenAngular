@@ -33,5 +33,12 @@ export class GameEndpointService extends EndpointBase {
         return this.handleError(error, () => this.getNewGameEndpoint(gameObj));
       }));
   }
+  
+  updateGameEndpoint<T>(gameObj: T): Observable<T> {
+    return this.http.put<T>(this.gamesEndpoint, JSON.stringify(gameObj), this.requestHeaders).pipe<T>(
+      catchError(error => {
+        return this.handleError(error, () => this.updateGameEndpoint(gameObj));
+      }));
+  }
 
 }

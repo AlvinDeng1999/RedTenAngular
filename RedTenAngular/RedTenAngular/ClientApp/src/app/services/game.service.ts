@@ -19,4 +19,8 @@ export class GameService {
     return this.gameEndpoint.getNewGameEndpoint<Game>(game);
   }
 
+  updateGame(game: Game) {
+    return this.gameEndpoint.updateGameEndpoint<Game>(game);
+  }
+
 }

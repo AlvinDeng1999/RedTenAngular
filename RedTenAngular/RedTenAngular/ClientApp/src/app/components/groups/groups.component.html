@@ -1,25 +1,25 @@
-<div class="container" >
+<div class="container full-height d-flex flex-column" >
   <div>
     <header class="pageHeader">
       <h3 class="float-left">My Groups</h3>
       <button *ngIf="groups.length < 1" type="button" class="btn btn-primary float-right" data-toggle="modal" (click)="addGroup()">Add Group</button>
     </header>
   </div>
-  <div class="reduced-font" [@fadeInOut] *ngIf="groups.length > 0" >
-    <div style="padding-top: 70px">
+  <div class="reduced-font d-flex flex-column flex-grow-1" [@fadeInOut] *ngIf="groups.length > 0" >
+    <div style="padding-top: 2px">
       <div class="float-left">
         <h4>{{ groups[0].name }}</h4>
         <h6>Group ID: {{ groups[0].id }}</h6>
       </div>
     </div>
-    <div style="padding-top: 70px">
+    <div style="padding-top: 2px">
       <button *ngIf="!viewPlayerToggle" type="button" class="btn-sm btn btn-primary float-left" (click)="togglePlayers()">View Players</button>
       <button *ngIf="viewPlayerToggle" type="button" class="btn-sm btn btn-primary float-left" (click)="togglePlayers()">Hide Players</button>
       <button *ngIf="viewPlayerToggle" type="button" class="btn-sm btn btn-primary float-right" data-toggle="modal" (click)="addPlayer()">New Player</button>
     </div>
-    <div *ngIf="viewPlayerToggle && groups.length > 0" [@fadeInOut] class="flex-grow-1" style="padding-top: 50px;">
+    <div *ngIf="viewPlayerToggle && groups.length > 0" [@fadeInOut] class="d-flex flex-column flex-fill" style="padding-top: 2px;">
       
-      <ag-grid-angular style="width: 100%; height: 400px;"
+      <ag-grid-angular style="width: 100%; height:100%;"
                        class="ag-theme-alpine"
                        [rowData]="rowData"
                        [columnDefs]="columnDefs"

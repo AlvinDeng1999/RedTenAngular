@@ -7,6 +7,10 @@ import { Game } from '../../models/game.model';
 import { AlertService, MessageSeverity } from '../../services/alert.service';
 import { GroupService } from '../../services/group.service';
 import { Group } from '../../models/group.model';
+import { data } from 'jquery';
+
+import { RoundService } from '../../services/round.service';
+import { Round } from '../../models/round.model';
 
 @Component({
   selector: 'app-games',
@@ -17,13 +21,30 @@ import { Group } from '../../models/group.model';
 export class GamesComponent implements OnInit {
   @ViewChild('gameModal', { static: true })
   gameModal: ModalDirective;
+  @ViewChild('closeModal', { static: true })
+  closeModal: ModalDirective;
+  @ViewChild('roundModal', { static: true })
+  roundModal: ModalDirective;
 
   games: Game[] = [];
   groups: Group[];
-  open: Game[] = [];
+  open: Game = new Game();
   closed: Game[] = [];
 
+
+  roundEdit: Round = new Round();
+
   gameEdit: Game = new Game();
+  gameEditToggle: boolean = false;
+  editToggle() {
+    this.gameEditToggle = !this.gameEditToggle;
+  }
+
+  editRoundToggle: boolean = false;
+  toggleRound() {
+    this.editRoundToggle = !this.editRoundToggle;
+  }
+
   formResetToggle: boolean = true;
 
   constructor(private groupService: GroupService, private alertService: AlertService, private gameService: GameService) { }
@@ -57,6 +78,7 @@ export class GamesComponent implements OnInit {
     }
   ];
   rowData = [];
+  rowDataOpen = [];
   private gridApi: any;
   private gridColumnApi: any;
   private rowSelection = 'single';
@@ -68,7 +90,9 @@ export class GamesComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadGroups();
+    this.open.id = 0;
     this.loadGames();
+    
     
   }
 
@@ -89,9 +113,20 @@ export class GamesComponent implements OnInit {
 
   private onLoadGamesSuccess(games: Game[]) {
     this.games = games;
+    for (let i = 0; i < this.games.length; i++) {
+      if (this.games[i].status == 'Closed') {
+        this.closed.push(this.games[i]);
+      }
+      else if(this.games[i].status == 'Open') {
+        this.open = this.games[i];
+      }
+      console.log(this.open.id);
+    }
     this.alertService.stopLoadingMessage();
-    this.rowData = this.games;
-    console.log(this.games.length);
+    this.rowData = this.closed;
+    this.rowDataOpen = [];
+    this.rowDataOpen.push(this.open);
+    console.log(this.open.id);
   }
 
   private onLoadFail(error: any) {
@@ -116,16 +151,83 @@ export class GamesComponent implements OnInit {
     console.log("cancel game");
   }
 
+  closeGame() {
+    setTimeout(() => {
+      this.closeModal.show();
+    });
+  }
+
+  confirmClose() {
+    this.alertService.startLoadingMessage();
+    this.open.status = 'Closed';
+    this.gameService.updateGame(this.open).subscribe(result => {
+      this.gridApi.updateRowData({ add: [this.open] });
+      this.alertService.showStickyMessage('Game Closed');
+      this.alertService.stopLoadingMessage();
+      this.closed.push(result);
+      this.open = new Game();
+      this.open.id = 0;
+      this.rowDataOpen = [];
+      
+    },
+      error => {
+        this.alertService.showStickyMessage('Save Error', 'Game could not be closed', MessageSeverity.error, error);
+        this.alertService.stopLoadingMessage();
+      });
+    this.closeModal.hide();
+  }
+
+  saveEdit() {
+    this.alertService.startLoadingMessage();
+
+    this.gameService.updateGame(this.open).subscribe(result => {
+      this.alertService.showStickyMessage('Game Saved');
+      this.games.push(result);
+      this.closed = [];
+      for (let i = 0; i < this.games.length; i++) {
+        if (this.games[i].status == 'Closed') {
+          this.closed.push(this.games[i]);
+        }
+        else if (this.games[i].status == 'Open') {
+          this.open = this.games[i];
+          this.rowDataOpen = [];
+          this.rowDataOpen.push(this.open);
+        }
+      }
+      this.rowData = this.closed;
+      this.gridApi.updateRowData({ delete: data })
+      this.gridApi.updateRowData({ add: [this.closed] });
+      this.alertService.stopLoadingMessage();
+    },
+      error => {
+        this.alertService.showStickyMessage('Save Error', 'Game could not be created', MessageSeverity.error, error);
+        this.alertService.stopLoadingMessage();
+      });
+
+    this.editToggle();
+  }
+
   saveGame() {
     this.alertService.startLoadingMessage();
-    console.log(this.gameEdit.location);
-    console.log(this.gameEdit.date);
-    console.log(this.gameEdit.status);
     this.gameEdit.status = 'Open';
-    console.log(this.gameEdit.status);
 
     this.gameService.createGame(this.gameEdit).subscribe(result => {
       this.alertService.showStickyMessage('Game Saved');
+      this.games.push(result);
+      this.closed = [];
+      for (let i = 0; i < this.games.length; i++) {
+        if (this.games[i].status == 'Closed') {
+          this.closed.push(this.games[i]);
+        }
+        else if (this.games[i].status == 'Open') {
+          this.open = this.games[i];
+          this.rowDataOpen = [];
+          this.rowDataOpen.push(this.open);
+        }
+      }
+      this.rowData = this.closed;
+      this.gridApi.updateRowData({ delete: data })
+      this.gridApi.updateRowData({ add: [this.closed] });
       this.alertService.stopLoadingMessage();
     },
       error => {
