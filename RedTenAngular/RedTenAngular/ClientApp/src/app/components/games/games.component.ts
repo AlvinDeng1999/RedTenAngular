@@ -12,6 +12,10 @@ import { data } from 'jquery';
 import { RoundService } from '../../services/round.service';
 import { Round } from '../../models/round.model';
 
+import { PlayerService } from '../../services/player.service';
+import { Player } from '../../models/player.model';
+
+
 @Component({
   selector: 'app-games',
   templateUrl: './games.component.html',
@@ -31,8 +35,15 @@ export class GamesComponent implements OnInit {
   open: Game = new Game();
   closed: Game[] = [];
 
+  players: Player[] = [];
 
   roundEdit: Round = new Round();
+  scoreEdit: number = 0;
+
+  chooseLosers: boolean = false;
+  losersToggle() {
+    this.chooseLosers = !this.chooseLosers;
+  }
 
   gameEdit: Game = new Game();
   gameEditToggle: boolean = false;
@@ -43,20 +54,51 @@ export class GamesComponent implements OnInit {
   editRoundToggle: boolean = false;
   toggleRound() {
     this.editRoundToggle = !this.editRoundToggle;
+    this.getGroupPlayers();
+    
   }
+
+  selectedPlayers: Player[] = [];
 
   formResetToggle: boolean = true;
 
-  constructor(private groupService: GroupService, private alertService: AlertService, private gameService: GameService) { }
+  constructor(private groupService: GroupService, private alertService: AlertService, private gameService: GameService, private playerService: PlayerService, private roundService: RoundService) { }
 
   defaultColDef = true;
 
-  //public id: number;
-  //public location: string;
-  //public date: Date;
-  //public status: string;
-  //public groupid: number;
-  //public rounds: Round[];
+  columnRoundDef = [
+    {
+      field: 'id',
+      hide: true,
+      suppressToolPanel: true
+    },
+    {
+      field: 'time',
+    }
+  ];
+
+  columnPlayerDef = [
+    {
+      field: 'id',
+      hide: true,
+      suppressToolPanel: true
+    },
+    {
+      field: 'firstName',
+      checkboxSelection: true
+    },
+    { field: 'lastName' },
+    {
+      field: 'nickName',
+      hide: true,
+      suppressToolPanel: true
+    },
+    {
+      field: 'email',
+      hide: true,
+      suppressToolPanel: true
+    }
+  ];
 
   columnDefs = [
     {
@@ -79,9 +121,11 @@ export class GamesComponent implements OnInit {
   ];
   rowData = [];
   rowDataOpen = [];
+  rowDataPlayer = [];
+  rowDataLosers = [];
   private gridApi: any;
   private gridColumnApi: any;
-  private rowSelection = 'single';
+  private rowSelection = 'multiple';
   onGridReady(params) {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
@@ -92,13 +136,20 @@ export class GamesComponent implements OnInit {
     this.loadGroups();
     this.open.id = 0;
     this.loadGames();
-    
-    
+
+  }
+
+  getSelectedRowData() {
+    let selectedNodes = this.gridApi.getSelectedNodes();
+    this.selectedPlayers = selectedNodes.map(node => node.data);
+    console.log(this.selectedPlayers.length);
+    this.rowDataLosers = this.selectedPlayers;
   }
 
   private loadGames() {
     this.alertService.startLoadingMessage();
     this.gameService.getGames().subscribe(results => this.onLoadGamesSuccess(results), error => this.onLoadFail(error));
+    
   }
 
   private loadGroups() {
@@ -240,6 +291,44 @@ export class GamesComponent implements OnInit {
       });
 
     this.gameModal.hide();
+  }
+
+  private getGroupPlayers() {
+    if (this.groups.length > 0) {
+      this.players = this.groups[0].players;
+      this.rowDataPlayer = this.players;
+    }
+  }
+
+  addRound() {
+    this.getSelectedRowData();
+    this.toggleRound();
+    this.losersToggle();
+  }
+
+  submitRound() {
+    this.roundEdit.gameid = this.open.id;
+    if (!this.open.rounds) {
+      this.open.rounds = [];
+    }
+    this.saveRound();
+    this.open.rounds.push(this.roundEdit);
+    this.saveEdit();
+    this.editToggle();
+    this.losersToggle();
+  }
+
+  saveRound() {
+    this.alertService.startLoadingMessage();
+    this.alertService.startLoadingMessage();
+    this.roundService.createRound(this.roundEdit).subscribe(result => {
+      this.alertService.showStickyMessage('Round Saved');
+      this.alertService.stopLoadingMessage();
+    },
+      error => {
+        this.alertService.showStickyMessage('Save Error', 'Round could not be saved', MessageSeverity.error, error);
+        this.alertService.stopLoadingMessage();
+      });
   }
 
 }

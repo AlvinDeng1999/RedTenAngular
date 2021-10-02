@@ -11,7 +11,7 @@ export class RoundService {
   constructor(private authService: AuthService,
     private roundEndpoint: RoundEndpointService) { }
 
-  createPlayer(round: Round) {
+  createRound(round: Round) {
     return this.roundEndpoint.getNewRoundEndpoint<Round>(round);
   }
 }
