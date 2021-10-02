@@ -31,6 +31,8 @@ export class GamesComponent implements OnInit {
   closeModal: ModalDirective;
   @ViewChild('roundModal', { static: true })
   roundModal: ModalDirective;
+  @ViewChild('gameDetails', { static: true })
+  gameDetails: ModalDirective;
 
   games: Game[] = [];
   groups: Group[];
@@ -51,8 +53,8 @@ export class GamesComponent implements OnInit {
   //rowSelection: string = "Multiple";
   gameEdit: Game = new Game();
   gameEditToggle: boolean = false;
-  editToggle() {
-    this.gameEditToggle = !this.gameEditToggle;
+  closeGameDetails() {
+    this.gameDetails.hide();
   }
 
   editRoundToggle: boolean = false;
@@ -201,6 +203,16 @@ export class GamesComponent implements OnInit {
     });
   }
 
+  editGameDetails() {
+    this.formResetToggle = false;
+
+    setTimeout(() => {
+      this.formResetToggle = true;
+
+      this.gameDetails.show();
+    });
+  }
+
   cancelGame() {
     this.gameModal.hide();
     console.log("cancel game");
@@ -263,7 +275,7 @@ export class GamesComponent implements OnInit {
         this.alertService.stopLoadingMessage();
       });
 
-    this.editToggle();
+    this.closeGameDetails()
   }
 
   saveGame() {

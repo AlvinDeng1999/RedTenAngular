@@ -13,27 +13,38 @@
                      [columnDefs]="columnDefs"
                      (gridReady)="onGridReady($event)">
     </ag-grid-angular>
-    <div *ngIf="gameEditToggle" style="padding-top: 10px">
-      <form (ngSubmit)="saveEdit()">
-        <div class="form-group">
-          <label for="editLocation">Location</label>
-          <input class="form-control" type="text" id="editLocation" name="editLocation" value=open.location [(ngModel)]="open.location" #editLocation="ngModel" />
-        </div>
-        <div class="form-group">
-          <label for="editDate">Date</label>
-          <input class="form-control" type="datetime-local" id="editDate" name="editDate" value="open.date" [(ngModel)]="open.date" #editDate="ngModel" />
-        </div>
-        <div class="form-group">
-          <button *ngIf="gameEditToggle" type="submit" class="btn btn-sm btn-primary float-left">Save</button>
-          <button *ngIf="gameEditToggle" type="button" class="btn btn-sm btn-outline-danger float-right" (click)="editToggle()">Cancel</button>
-        </div>
-      </form>
-    </div>
+
     <div class="form-group" style="padding-top: 10px" *ngIf="!editRoundToggle && !chooseLosers">
-      <button *ngIf="!gameEditToggle" type="button" class="btn btn-sm btn-primary float-left" (click)="editToggle()">Edit Game</button>
+      <button *ngIf="!gameEditToggle" type="button" class="btn btn-sm btn-primary float-left" (click)="editGameDetails() ">Edit Game</button>
       <button *ngIf="!gameEditToggle" type="button" class="btn btn-sm btn-outline-danger float-right" data-toggle="modal" (click)="closeGame()">Close Game</button>
     </div>
 
+  </div>
+
+  <div class="modal fade" bsModal #gameDetails="bs-modal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Game Details</h3>
+        </div>
+        <div class="modal-body">
+          <form (ngSubmit)="saveEdit()">
+            <div class="form-group">
+              <label for="editLocation">Location</label>
+              <input class="form-control" type="text" id="editLocation" name="editLocation" value=open.location [(ngModel)]="open.location" #editLocation="ngModel" />
+            </div>
+            <div class="form-group">
+              <label for="editDate">Date</label>
+              <input class="form-control" type="datetime-local" id="editDate" name="editDate" value="open.date" [(ngModel)]="open.date" #editDate="ngModel" />
+            </div>
+            <div class="form-group">
+              <button type="submit" class="btn btn-sm btn-primary float-left">Save</button>
+              <button type="button" class="btn btn-sm btn-outline-danger float-right" (click)="closeGameDetails()">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div *ngIf="editRoundToggle  && !chooseLosers" class="reduced-font" style="padding-top: 10px" [@fadeInOut]>
