@@ -40,7 +40,8 @@ namespace RedTenAngular.Controllers
         [HttpGet("{id}")]
         public GameDetails GetGame(int id)
         {
-            GameDetails game = this._unitOfWork.Games.GetGame(id);
+           
+            GameDetails game = this._unitOfWork.Games.GetGame(id, this._unitOfWork.CurrentUserId);
             return game;
         }
 
@@ -68,7 +69,7 @@ namespace RedTenAngular.Controllers
             }
 
             int idFromBody = game.id;
-            Game gameFromDB = _unitOfWork.Games.GetGame(idFromBody);
+            Game gameFromDB = _unitOfWork.Games.GetGame(idFromBody, _unitOfWork.CurrentUserId);
             int idFromGame = gameFromDB.id;
 
             // Security validation

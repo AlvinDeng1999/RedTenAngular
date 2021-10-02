@@ -48,7 +48,7 @@ namespace RedTenAngular.Migrations
                     GroupId = table.Column<int>(type: "int", nullable: false),
                     Location = table.Column<string>(type: "nvarchar(50)", nullable: false),
                     Date = table.Column<DateTime>(type: "DateTime", nullable: false),
-                    Status = table.Column<String>(type: "nvarchar(10)", nullable: false)
+                    Status = table.Column<string>(type: "nvarchar(10)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -90,7 +90,8 @@ namespace RedTenAngular.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PlayerId = table.Column<int>(type: "int", nullable: false),
-                    RoundId = table.Column<int>(type: "int", nullable: false)
+                    RoundId = table.Column<int>(type: "int", nullable: false),
+                    Score = table.Column<int>(type: "int", nullable:false)
                 },
                 constraints: table =>
                 {

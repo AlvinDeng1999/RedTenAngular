@@ -25,20 +25,30 @@ namespace DAL.Repositories
                  .ToList();
         }
 
-        public GameDetails GetGame(int id)
+        public GameDetails GetGame(int id, string userid)
         {
             var game = _appContext.Games.Where(g => g.id == id).Include(g => g.Rounds).FirstOrDefault();
 
-            var scores = from r in game.Rounds
-                         join rp in _appContext.RoundPlayers
-                         on r.id equals rp.RoundId
+            var groupPlayers =
+                (
+                    from g in _appContext.Groups
+                    join gu in _appContext.GroupUsers.Where(x=>x.userId==userid)
+                    on g.id equals gu.GroupId
+                    join gp in _appContext.PlayerGroups
+                    on g.id equals gp.GroupId
+                    join p in _appContext.Players
+                    on gp.PlayerId equals p.id
+                    select p
+                ).ToList();
+
+            var scores = (from rp in _appContext.RoundPlayers.Where(rp=>game.Rounds.Select(r=>r.id).Contains(rp.RoundId))              
                          group rp by rp.PlayerId into playerScore
                          select new
                          {
                              PlayerId = playerScore.Key,
                              PlayerScore = playerScore.Sum(x => x.Score)
-                         };
-            var playerScores = from p in _appContext.Players
+                         }).ToList();
+            var playerScores = from p in groupPlayers
                                join s in scores
                                on p.id equals s.PlayerId
                                select new PlayerGameScore()

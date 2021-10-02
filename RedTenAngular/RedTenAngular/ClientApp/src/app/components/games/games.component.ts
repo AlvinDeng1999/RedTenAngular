@@ -14,6 +14,8 @@ import { Round } from '../../models/round.model';
 
 import { PlayerService } from '../../services/player.service';
 import { Player } from '../../models/player.model';
+import { RoundViewModel } from '../../models/roundviewmodel.model';
+import { PlayerViewModel } from '../../models/playerviewmodel.model';
 
 
 @Component({
@@ -124,7 +126,7 @@ export class GamesComponent implements OnInit {
   rowData = [];
   rowDataOpen = [];
   rowDataPlayer = [];
-  rowDataLosers = [];
+  rowDataRoundPlayers = [];
   private gridApi: any;
   private gridColumnApi: any;
   rowSelection = 'multiple';
@@ -145,7 +147,7 @@ export class GamesComponent implements OnInit {
     let selectedNodes = this.gridApi.getSelectedNodes();
     this.selectedPlayers = selectedNodes.map(node => node.data);
     console.log(this.selectedPlayers.length);
-    this.rowDataLosers = this.selectedPlayers;
+    this.rowDataRoundPlayers = this.selectedPlayers;
   }
 
   private loadGames() {
@@ -315,15 +317,29 @@ export class GamesComponent implements OnInit {
     }
     this.saveRound();
     this.open.rounds.push(this.roundEdit);
-    this.saveEdit();
-    this.editToggle();
     this.losersToggle();
   }
 
   saveRound() {
     this.alertService.startLoadingMessage();
-    this.alertService.startLoadingMessage();
-    this.roundService.createRound(this.roundEdit).subscribe(result => {
+    let rvm = new RoundViewModel();
+    rvm.gameid = this.open.id;
+    rvm.time = this.roundEdit.time;
+    rvm.players = [];
+    let selectedNodes = this.gridApi.getSelectedNodes();
+    let selectedLosers = selectedNodes.map(node => node.data);
+
+    this.rowDataRoundPlayers.forEach((player) => {
+      if (selectedLosers.includes(player)) {
+        player.score = this.scoreEdit;
+      }
+      else {
+        player.score = 0;
+      }
+      rvm.players.push(new PlayerViewModel(player.id, player.score));
+    });
+    
+    this.roundService.createRound(rvm).subscribe(result => {
       this.alertService.showStickyMessage('Round Saved');
       this.alertService.stopLoadingMessage();
     },
@@ -333,4 +349,5 @@ export class GamesComponent implements OnInit {
       });
   }
 
+  
 }
