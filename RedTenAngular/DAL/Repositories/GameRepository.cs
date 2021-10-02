@@ -25,10 +25,39 @@ namespace DAL.Repositories
                  .ToList();
         }
 
-        public Game GetGame(int id)
+        public GameDetails GetGame(int id)
         {
-            return _appContext.Games.Where(g => g.id == id).Include(g => g.Rounds).FirstOrDefault();
+            var game = _appContext.Games.Where(g => g.id == id).Include(g => g.Rounds).FirstOrDefault();
+
+            var scores = from r in game.Rounds
+                         join rp in _appContext.RoundPlayers
+                         on r.id equals rp.RoundId
+                         group rp by rp.PlayerId into playerScore
+                         select new
+                         {
+                             PlayerId = playerScore.Key,
+                             PlayerScore = playerScore.Sum(x => x.Score)
+                         };
+            var playerScores = from p in _appContext.Players
+                               join s in scores
+                               on p.id equals s.PlayerId
+                               select new PlayerGameScore()
+                               {
+                                   Player = p,
+                                   PlayerScore = s.PlayerScore
+                               };
+            var gameDetails = new GameDetails()
+            {
+                GroupId = game.GroupId,
+                PlayerGameScores = playerScores.ToList(),
+                Date = game.Date,
+                id = game.id,
+                Location = game.Location,
+                Rounds = game.Rounds,
+            };
+            return gameDetails;
         }
+
 
         public int? GetGameId(string userId)
         {

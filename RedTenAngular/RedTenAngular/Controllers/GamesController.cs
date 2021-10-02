@@ -38,9 +38,9 @@ namespace RedTenAngular.Controllers
         }
 
         [HttpGet("{id}")]
-        public Game GetGame(int id)
+        public GameDetails GetGame(int id)
         {
-            Game game = this._unitOfWork.Games.GetGame(id);
+            GameDetails game = this._unitOfWork.Games.GetGame(id);
             return game;
         }
 
