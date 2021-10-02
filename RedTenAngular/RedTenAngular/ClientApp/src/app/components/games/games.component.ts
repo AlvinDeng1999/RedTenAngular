@@ -45,6 +45,8 @@ export class GamesComponent implements OnInit {
     this.chooseLosers = !this.chooseLosers;
   }
 
+  rowDataRounds: Round[] = [];
+  //rowSelection: string = "Multiple";
   gameEdit: Game = new Game();
   gameEditToggle: boolean = false;
   editToggle() {
@@ -125,7 +127,7 @@ export class GamesComponent implements OnInit {
   rowDataLosers = [];
   private gridApi: any;
   private gridColumnApi: any;
-  private rowSelection = 'multiple';
+  rowSelection = 'multiple';
   onGridReady(params) {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
