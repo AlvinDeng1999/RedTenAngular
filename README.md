@@ -14,19 +14,14 @@ The website is designed for smart phones and tablets although it can be used on 
 -   Theming using  [Bootstrap 4](https://getbootstrap.com/)  with  [Bootswatch](https://bootswatch.com/)
 
 ## Features
-
 -   A complete backend and frontend project structure to build on, with login, user and permission-based role management integrated
 -   Clean and simple Angular/ASP.NET Core code to serve as a guide
 -   Data Access Layer built with the Repository and Unit of Work Pattern
--   Code First Database
 -   A RESTful API Design
 -   Dialog and Notification Services
--   Configuration Page and Configuration Service
 -   Integrated Internationalization
 -   Theming with SASS
--   Ready-to-use email API
 -   Handling Access and Refresh Tokens with WebStorage (Bearer authentication) - No Cookies
--   CRUD APIs
 -   NUnit Tests and frontend test automation
 -   etc.
 
