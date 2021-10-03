@@ -37,7 +37,7 @@ export class GroupsComponent implements OnInit {
     { field: 'firstName' },
     { field: 'lastName' },
     {
-      field: 'nickName'
+      field: 'nickname'
     },
     {
       field: 'email',
@@ -128,6 +128,9 @@ export class GroupsComponent implements OnInit {
     console.log("save group");
     console.log(this.playerEdit.firstName);
     this.playerService.createPlayer(this.playerEdit).subscribe(result => {
+      if (!this.groups[0].players) {
+        this.groups[0].players = [];
+        }
       this.groups[0].players.push(result);
       this.rowData = this.groups[0].players;
       this.gridApi.updateRowData({ add: [result] });

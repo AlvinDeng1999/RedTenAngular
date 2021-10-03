@@ -45,15 +45,11 @@ import { GroupByPipe } from './pipes/group-by.pipe';
 import { AppComponent } from './components/app.component';
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
-import { CustomersComponent } from './components/customers/customers.component';
-import { OrdersComponent } from './components/orders/orders.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { AboutComponent } from './components/about/about.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 
 import { BannerDemoComponent } from './components/controls/banner-demo.component';
-import { TodoDemoComponent } from './components/controls/todo-demo.component';
-import { StatisticsDemoComponent } from './components/controls/statistics-demo.component';
 import { NotificationsViewerComponent } from './components/controls/notifications-viewer.component';
 import { SearchBoxComponent } from './components/controls/search-box.component';
 import { UserInfoComponent } from './components/controls/user-info.component';
@@ -61,13 +57,8 @@ import { UserPreferencesComponent } from './components/controls/user-preferences
 import { UsersManagementComponent } from './components/controls/users-management.component';
 import { RolesManagementComponent } from './components/controls/roles-management.component';
 import { RoleEditorComponent } from './components/controls/role-editor.component';
-import { TestComponentComponent } from './components/test/test-component.component';
-import { PlayersComponent } from './components/players/players.component';
-import { AddPlayerComponent } from './components/add-player/add-player.component';
 import { GamesComponent } from './components/games/games.component';
-import { AddGameComponent } from './components/add-game/add-game.component';
 import { GroupsComponent } from './components/groups/groups.component';
-import { AddGroupComponent } from './components/add-group/add-group.component';
 import { PlayerScoreComponent } from './components/games/player-score/player-score.component';
 
 import { AgGridModule } from 'ag-grid-angular';
@@ -102,29 +93,21 @@ import { AgGridModule } from 'ag-grid-angular';
     AppComponent,
     LoginComponent,
     HomeComponent,
-    CustomersComponent,
-    OrdersComponent,
     SettingsComponent,
     UsersManagementComponent, UserInfoComponent, UserPreferencesComponent,
     RolesManagementComponent, RoleEditorComponent,
     AboutComponent,
     NotFoundComponent,
     NotificationsViewerComponent,
-    SearchBoxComponent,
-    StatisticsDemoComponent, TodoDemoComponent, BannerDemoComponent,
+    SearchBoxComponent, BannerDemoComponent,
     EqualValidator,
     LastElementDirective,
     AutofocusDirective,
     BootstrapTabDirective,
     BootstrapToggleDirective,
     GroupByPipe,
-    TestComponentComponent,
-    PlayersComponent,
-    AddPlayerComponent,
     GamesComponent,
-    AddGameComponent,
     GroupsComponent,
-    AddGroupComponent,
     PlayerScoreComponent
   ],
   providers: [

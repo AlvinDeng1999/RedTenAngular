@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -44,7 +45,7 @@ namespace RedTenAngular.Controllers
         }
         
         [HttpPost]
-        public IActionResult PostPlayer([Reqquired][FromBody]Player player)
+        public IActionResult PostPlayer([Required][FromBody]Player player)
         {
             int? groupid = this._unitOfWork.GroupUsers.GetGroupId(this._unitOfWork.CurrentUserId);
             if(groupid == null)

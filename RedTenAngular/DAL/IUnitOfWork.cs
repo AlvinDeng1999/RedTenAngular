@@ -15,9 +15,6 @@ namespace DAL
     public interface IUnitOfWork
     {
         string CurrentUserId { get; }
-        ICustomerRepository Customers { get; }
-        IProductRepository Products { get; }
-        IOrdersRepository Orders { get; }
         IPlayerRepository Players { get; }
         IRoundRepository Rounds { get; }
         IGameRepository Games { get; }
