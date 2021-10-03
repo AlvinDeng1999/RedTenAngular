@@ -68,8 +68,10 @@ import { GamesComponent } from './components/games/games.component';
 import { AddGameComponent } from './components/add-game/add-game.component';
 import { GroupsComponent } from './components/groups/groups.component';
 import { AddGroupComponent } from './components/add-group/add-group.component';
+import { PlayerScoreComponent } from './components/games/player-score/player-score.component';
 
 import { AgGridModule } from 'ag-grid-angular';
+
 
 @NgModule({
   imports: [
@@ -122,7 +124,8 @@ import { AgGridModule } from 'ag-grid-angular';
     GamesComponent,
     AddGameComponent,
     GroupsComponent,
-    AddGroupComponent
+    AddGroupComponent,
+    PlayerScoreComponent
   ],
   providers: [
     { provide: ErrorHandler, useClass: AppErrorHandler },

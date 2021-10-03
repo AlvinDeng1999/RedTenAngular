@@ -16,7 +16,8 @@ import { PlayerService } from '../../services/player.service';
 import { Player } from '../../models/player.model';
 import { RoundViewModel } from '../../models/roundviewmodel.model';
 import { PlayerViewModel } from '../../models/playerviewmodel.model';
-
+import { PlayerScore } from '../../models/playerscore.model';
+import { GameDetails } from '../../models/gamedetails.model';
 
 @Component({
   selector: 'app-games',
@@ -38,12 +39,11 @@ export class GamesComponent implements OnInit {
   groups: Group[];
   open: Game = new Game();
   closed: Game[] = [];
-
+  
   players: Player[] = [];
-
+  playerScores: PlayerScore[] = [];
   roundEdit: Round = new Round();
   scoreEdit: number = 0;
-
   chooseLosers: boolean = false;
   losersToggle() {
     this.chooseLosers = !this.chooseLosers;
@@ -68,7 +68,8 @@ export class GamesComponent implements OnInit {
 
   formResetToggle: boolean = true;
 
-  constructor(private groupService: GroupService, private alertService: AlertService, private gameService: GameService, private playerService: PlayerService, private roundService: RoundService) { }
+  constructor(private groupService: GroupService, private alertService: AlertService, private gameService: GameService,
+    private playerService: PlayerService, private roundService: RoundService) { }
 
   defaultColDef = true;
 
@@ -95,9 +96,7 @@ export class GamesComponent implements OnInit {
     },
     { field: 'lastName' },
     {
-      field: 'nickName',
-      hide: true,
-      suppressToolPanel: true
+      field: 'nickName'
     },
     {
       field: 'email',
@@ -142,7 +141,6 @@ export class GamesComponent implements OnInit {
     this.loadGroups();
     this.open.id = 0;
     this.loadGames();
-
   }
 
   getSelectedRowData() {
@@ -184,6 +182,9 @@ export class GamesComponent implements OnInit {
     this.rowDataOpen = [];
     this.rowDataOpen.push(this.open);
     console.log(this.open.id);
+    if (this.open.id > 0) {
+      this.loadGame();
+    }
   }
 
   private onLoadFail(error: any) {
@@ -354,6 +355,7 @@ export class GamesComponent implements OnInit {
     this.roundService.createRound(rvm).subscribe(result => {
       this.alertService.showStickyMessage('Round Saved');
       this.alertService.stopLoadingMessage();
+      this.loadGames()
     },
       error => {
         this.alertService.showStickyMessage('Save Error', 'Round could not be saved', MessageSeverity.error, error);
@@ -361,5 +363,14 @@ export class GamesComponent implements OnInit {
       });
   }
 
-  
+  loadGame() {
+    this.alertService.startLoadingMessage();
+    this.gameService.getGame(this.open.id).subscribe(results => this.onLoadGameSuccess(results), error => this.onLoadFail(error));
+  }
+
+  onLoadGameSuccess(gameDetails: GameDetails) {
+    this.playerScores = gameDetails.playerGameScores;
+    this.alertService.stopLoadingMessage();
+  }
+ 
 }

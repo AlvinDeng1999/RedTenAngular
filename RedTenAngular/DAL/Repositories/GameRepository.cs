@@ -53,7 +53,9 @@ namespace DAL.Repositories
                                on p.id equals s.PlayerId
                                select new PlayerGameScore()
                                {
-                                   Player = p,
+                                   PlayerId = p.id,
+                                   FirstName = p.FirstName,
+                                   LastName = p.LastName,
                                    PlayerScore = s.PlayerScore
                                };
             var gameDetails = new GameDetails()

@@ -13,7 +13,9 @@ namespace DAL.Models
     }
     public class PlayerGameScore
     {
-        public Player Player { get; set; }
+        public int PlayerId { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public int PlayerScore { get; set; }
     }
 }

@@ -5,7 +5,9 @@
       <button *ngIf="open.id == 0" type="button" class="btn btn-primary float-right" data-toggle="modal" (click)="addGame()" [@fadeInOut]>New Game</button>
     </header>
   </div>
+
   <div *ngIf="open.id != 0" style="padding-top: 2px;" [@fadeInOut] class="d-flex flex-column reduced-font">
+
     <h4>Current Game <button *ngIf="open.id != 0 && !editRoundToggle && !gameEditToggle && !chooseLosers" type="button" class="btn btn-sm btn-primary float-right" (click)="toggleRound()">New Round</button></h4>
     <ag-grid-angular style="width: 100%; height: 93px;"
                      class="ag-theme-alpine"
@@ -20,7 +22,9 @@
     </div>
 
   </div>
-
+  <div class="reduced-font d-flex flex-column flex-fill" [@fadeInOut] [ngStyle]="{'padding-top': open.id === 0 ? '10px' : '0px'}" *ngIf="open.id != 0 && !editRoundToggle && !chooseLosers">
+    <app-player-score [playerScoresFromParent]="playerScores" class="reduced-font d-flex flex-column flex-fill"></app-player-score>
+  </div>
   <div class="modal fade" bsModal #gameDetails="bs-modal" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -47,14 +51,14 @@
     </div>
   </div>
 
-  <div *ngIf="editRoundToggle  && !chooseLosers" class="reduced-font" style="padding-top: 10px" [@fadeInOut]>
-    <form (ngSubmit)="addRound()">
+  <div *ngIf="editRoundToggle  && !chooseLosers" class="reduced-font d-flex flex-column flex-fill" style="padding-top: 10px" [@fadeInOut]>
+    <form (ngSubmit)="addRound()" class="reduced-font d-flex flex-column flex-fill">
       <div class="form-group">
-        <label for="roundTime">Time</label>
+        <label for="roundTime"><strong>Time</strong></label>
         <input type="datetime-local" id="roundTime" name="roundTime" class="form-control" [(ngModel)]="roundEdit.time" #roundTime="ngModel" />
       </div>
-      <div class="form-group">
-        <ag-grid-angular style="width: 100%; height: 300px;"
+      <div class="form-group reduced-font d-flex flex-column flex-fill">
+        <ag-grid-angular style="width: 100%; height: 100%;"
                          class="ag-theme-alpine"
                          [rowData]="rowDataPlayer"
                          [columnDefs]="columnPlayerDef"
@@ -70,7 +74,7 @@
     </form>
   </div>
 
-  <div *ngIf="closed.length > 0 && !editRoundToggle  && !chooseLosers" class="reduced-font d-flex flex-column flex-fill" [@fadeInOut] [ngStyle]="{'padding-top': open.id === 0 ? '10px' : '0px'}">
+  <div *ngIf="closed.length > 0 && !editRoundToggle  && !chooseLosers && open.id == 0" class="reduced-font d-flex flex-column flex-fill" [@fadeInOut] [ngStyle]="{'padding-top': open.id === 0 ? '10px' : '0px'}">
     <h4>Past Games</h4>
     <ag-grid-angular style="width: 100%; height: 100%;"
                      class="ag-theme-alpine"

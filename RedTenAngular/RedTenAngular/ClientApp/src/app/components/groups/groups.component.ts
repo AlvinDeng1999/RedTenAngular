@@ -37,9 +37,8 @@ export class GroupsComponent implements OnInit {
     { field: 'firstName' },
     { field: 'lastName' },
     {
-      field: 'nickName',
-      hide: true,
-      suppressToolPanel: true },
+      field: 'nickName'
+    },
     {
       field: 'email',
       hide: true,

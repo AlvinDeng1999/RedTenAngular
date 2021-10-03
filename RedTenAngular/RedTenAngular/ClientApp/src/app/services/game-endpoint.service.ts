@@ -18,12 +18,20 @@ export class GameEndpointService extends EndpointBase {
     super(http, auth);
   }
 
-  getGameEndpoint<T>(): Observable<T> {
+  getGameEndpoint<T>(id: number): Observable<T> {
+    const endpointURL: string = this.gamesEndpoint + '/' + id.toString();
+    return this.http.get<T>(endpointURL, this.requestHeaders).pipe<T>(
+      catchError(error => {
+        return this.handleError(error, () => this.getGameEndpoint(id));
+      }));
+  }
+
+  getGamesEndpoint<T>(): Observable<T> {
     const endpointURL: string = this.gamesEndpoint;
 
     return this.http.get<T>(endpointURL, this.requestHeaders).pipe<T>(
       catchError(error => {
-        return this.handleError(error, () => this.getGameEndpoint());
+        return this.handleError(error, () => this.getGamesEndpoint());
       }));
   }
 
