@@ -301,6 +301,7 @@ export class GamesComponent implements OnInit {
       this.gridApi.updateRowData({ delete: data })
       this.gridApi.updateRowData({ add: [this.closed] });
       this.alertService.stopLoadingMessage();
+      this.playerScores = [];
     },
       error => {
         this.alertService.showStickyMessage('Save Error', 'Game could not be created', MessageSeverity.error, error);
