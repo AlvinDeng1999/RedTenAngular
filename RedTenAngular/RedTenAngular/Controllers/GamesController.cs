@@ -33,7 +33,7 @@ namespace RedTenAngular.Controllers
         [HttpGet]
         public IEnumerable<Game> GetGames()
         {
-            var games = _unitOfWork.Games.GetAllGames();
+            var games = _unitOfWork.Games.GetAllGames(_unitOfWork.CurrentUserId);
             return games;
         }
 

@@ -9,7 +9,7 @@ namespace DAL.Repositories.Interfaces
 {
     public interface IGameRepository : IRepository<Game>
     {
-        IEnumerable<Game> GetAllGames();
+        IEnumerable<Game> GetAllGames(string userid);
         void AddGame(Game game);
         GameDetails GetGame(int id, string userid);
         int? GetGameId(string userId);

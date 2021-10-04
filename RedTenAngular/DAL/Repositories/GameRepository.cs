@@ -19,10 +19,16 @@ namespace DAL.Repositories
             this._appContext.SaveChanges();
         }
 
-        public IEnumerable<Game> GetAllGames()
+        public IEnumerable<Game> GetAllGames(string userid)
         {
-            return _appContext.Games
-                 .ToList();
+            var games = from game in _appContext.Games
+                        join grp in _appContext.Groups
+                        on game.GroupId equals grp.id
+                        join gu in _appContext.GroupUsers
+                        on grp.id equals gu.GroupId
+                        where gu.userId.Equals(userid)
+                        select game;
+            return games;
         }
 
         public GameDetails GetGame(int id, string userid)

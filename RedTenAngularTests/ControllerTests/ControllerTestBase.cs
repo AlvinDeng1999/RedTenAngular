@@ -33,6 +33,7 @@ namespace RedTenAngularTests.ControllerTests
     public class ControllerTestBase
     {
         string JWT = string.Empty;
+        string userid;
         readonly HttpClient _http = new HttpClient();
         readonly TestSettings _testSettings;
 
@@ -42,15 +43,22 @@ namespace RedTenAngularTests.ControllerTests
         public ControllerTestBase()
         {
             IConfigurationBuilder builder = new ConfigurationBuilder()
-                .AddJsonFile("testsettings.json", optional: true, reloadOnChange: true);
+                   .AddJsonFile("Atata.local.json", optional: true, reloadOnChange: true);
             var configuration = builder.Build();
+            var baseUrl = configuration.GetValue<string>("baseUrl");
             _testSettings = configuration.GetSection("AppSettings").Get<TestSettings>();
+            _testSettings.WebAppRootUrl = baseUrl;
             _databaseCoonnection = configuration.GetConnectionString("DefaultConnection");
         }
 
         [OneTimeSetUp]
         public async Task Init()
-        {      
+        {
+            using (var conn = new SqlConnection(this._databaseCoonnection))
+            {
+                userid = conn.ExecuteScalarSql<string>("select id from aspNetUsers where userName=@userName", new { _testSettings.UserName });
+            }
+            DeletePlayersAndGroup();
             _http.BaseAddress = new Uri(_testSettings.WebAppRootUrl);
             await LoginAsync();
 
@@ -155,6 +163,23 @@ namespace RedTenAngularTests.ControllerTests
             return default(T);
         }
 
-        
+        /// <summary>
+        /// delete the group and players before and after tests if any for this user
+        /// </summary>
+        private void DeletePlayersAndGroup()
+        {
+            using (var conn = new SqlConnection(this._databaseCoonnection))
+            {
+                conn.ExecuteSql(@"
+                    delete p
+                    from aspNetUsers u 
+                    join GroupUsers gu on gu.userId=u.Id 
+                    join PlayerGroups pg on pg.GroupId=gu.GroupId
+                    join Players p on p.Id=pg.PlayerId
+                    where u.id=@userid;
+                    delete g from groups g join groupUsers gu on gu.groupId=g.id and gu.userid=@userid;", 
+                new { userid });
+            }
+        }
     }
 }

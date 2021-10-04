@@ -149,7 +149,9 @@ export class GamesComponent implements OnInit {
     console.log(this.selectedPlayers.length);
     this.rowDataRoundPlayers = this.selectedPlayers;
   }
-
+  get totalSelectedRoundPlayers(): number {
+    return this.gridApi?.getSelectedNodes()?.map(node => node.data)?.length || 0;
+  }
   private loadGames() {
     this.alertService.startLoadingMessage();
     this.gameService.getGames().subscribe(results => this.onLoadGamesSuccess(results), error => this.onLoadFail(error));
@@ -200,6 +202,7 @@ export class GamesComponent implements OnInit {
     setTimeout(() => {
       this.formResetToggle = true;
       this.gameEdit = new Game();
+      this.gameEdit.date = new Date();
       this.gameModal.show();
     });
   }
