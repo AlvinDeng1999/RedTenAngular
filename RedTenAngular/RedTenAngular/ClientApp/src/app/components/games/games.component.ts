@@ -135,6 +135,10 @@ export class GamesComponent implements OnInit {
   onGridReady(params) {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
+    const sortModel = [
+      { colId: 'date', sort: 'desc' }
+    ];
+    this.gridApi.setSortModel(sortModel);
     this.gridApi.sizeColumnsToFit();
   }
 
@@ -374,8 +378,9 @@ export class GamesComponent implements OnInit {
     this.alertService.stopLoadingMessage();
   }
 
-  gameClosed() {
+  gameClosed(openToParent: Game) {
     this.open.id = 0;
+    this.closed.push(openToParent);
   }
  
 }

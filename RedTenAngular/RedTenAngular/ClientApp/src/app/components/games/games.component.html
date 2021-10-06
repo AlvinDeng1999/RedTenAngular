@@ -7,7 +7,7 @@
   </div>
 
   <div *ngIf="open.id != 0" style="padding-top: 2px;" [@fadeInOut] class="d-flex flex-column reduced-font">
-    <app-current-game [openFromParent]="open" (openToParent)="gameClosed()"></app-current-game>
+    <app-current-game [openFromParent]="open" (openToParent)="gameClosed($event)"></app-current-game>
   </div>
   <div class="reduced-font d-flex flex-column flex-fill" [@fadeInOut] [ngStyle]="{'padding-top': open.id === 0 ? '10px' : '0px'}" *ngIf="open.id != 0 && !editRoundToggle && !chooseLosers">
     <app-player-score [playerScoresFromParent]="playerScores" class="reduced-font d-flex flex-column flex-fill"></app-player-score>
