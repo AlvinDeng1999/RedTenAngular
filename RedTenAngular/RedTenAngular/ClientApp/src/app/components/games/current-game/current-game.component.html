@@ -1,0 +1,30 @@
+<div *ngIf="open.id != 0">
+  <h4>Current Game <button *ngIf="open.id != 0" type="button" class="btn btn-sm btn-primary float-right" (click)="toggleRound()">New Round</button></h4>
+  <ag-grid-angular style="width: 100%; height: 93px;"
+                   class="ag-theme-alpine"
+                   [rowData]="rowDataOpen"
+                   [columnDefs]="columnDefs"
+                   (gridReady)="onGridReady($event)">
+  </ag-grid-angular>
+
+  <div class="form-group" style="padding-top: 10px">
+    <button *ngIf="!gameEditToggle" type="button" class="btn btn-sm btn-primary float-left" (click)="editGameDetails() ">Edit Game</button>
+    <button *ngIf="!gameEditToggle" type="button" class="btn btn-sm btn-outline-danger float-right" data-toggle="modal" (click)="closeGame()">Close Game</button>
+  </div>
+</div>
+<div class="modal fade" bsModal #closeModal="bs-modal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Close Game?</h3>
+      </div>
+      <div class="modal-body">
+        <p style="color: red;">This game's status will be set to closed. You will no longer be able to make any changes to this game</p>
+        <div class="form-group">
+          <button type="button" class="float-left btn btn-danger" (click)="confirmGameClose()">Confirm</button>
+          <button type="button" class="float-right btn btn-outline-secondary" (click)="cancelModal()">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

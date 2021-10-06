@@ -38,6 +38,7 @@ export class GamesComponent implements OnInit {
   games: Game[] = [];
   groups: Group[];
   open: Game = new Game();
+  
   closed: Game[] = [];
   
   players: Player[] = [];
@@ -222,11 +223,7 @@ export class GamesComponent implements OnInit {
     console.log("cancel game");
   }
 
-  closeGame() {
-    setTimeout(() => {
-      this.closeModal.show();
-    });
-  }
+  
 
   cancelCancel() {
     this.closeModal.hide();
@@ -375,6 +372,10 @@ export class GamesComponent implements OnInit {
   onLoadGameSuccess(gameDetails: GameDetails) {
     this.playerScores = gameDetails.playerGameScores;
     this.alertService.stopLoadingMessage();
+  }
+
+  gameClosed() {
+    this.open.id = 0;
   }
  
 }

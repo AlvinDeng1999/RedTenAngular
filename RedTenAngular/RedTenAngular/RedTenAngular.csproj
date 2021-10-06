@@ -70,11 +70,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\components\tabs\tab.component.ts" />
     <None Remove="ClientApp\src\app\models\group.model.ts" />
     <None Remove="ClientApp\src\app\models\player.model.ts" />
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\components\tabs\tab.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\group.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\player.model.ts" />
   </ItemGroup>

@@ -62,6 +62,7 @@ import { GroupsComponent } from './components/groups/groups.component';
 import { PlayerScoreComponent } from './components/games/player-score/player-score.component';
 
 import { AgGridModule } from 'ag-grid-angular';
+import { CurrentGameComponent } from './components/games/current-game/current-game.component';
 
 
 @NgModule({
@@ -108,7 +109,8 @@ import { AgGridModule } from 'ag-grid-angular';
     GroupByPipe,
     GamesComponent,
     GroupsComponent,
-    PlayerScoreComponent
+    PlayerScoreComponent,
+    CurrentGameComponent
   ],
   providers: [
     { provide: ErrorHandler, useClass: AppErrorHandler },
