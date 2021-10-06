@@ -45,6 +45,52 @@ namespace RedTenAngularTests.UITests
                 .SaveButton.Click();
         }
 
+        [Test]
+        public void FirstGroupPlayers()
+        {
+            AddGroupTest();
+            var page = Go.To<PlayerPage>()
+                .ViewPlayersButton.Should.BeVisible()
+                .HidePlayersButton.Should.Not.BeVisible()
+                .AddPlayersButton.Should.Not.BeVisible()
+                .ViewPlayersButton.Click()
+                .Wait(1);
+
+                page.HidePlayersButton.Should.BeVisible()
+                .AddPlayersButton.Should.BeVisible()
+                .ViewPlayersButton.Should.Not.BeVisible()
+                .HidePlayersButton.Click()
+                .Wait(1)
+                .ViewPlayersButton.Click()
+                .Wait(1)
+                .AddPlayersButton.Click();
+        }
+
+        [Test]
+        public void AddPlayers()
+        {
+            string name;
+            FirstGroupPlayers();
+            Go.To<NewPlayerPage>()
+                .Wait(1)
+                .SaveButton.Should.BeDisabled()
+                .CancelButton.Should.Not.BeDisabled()
+                .FirstName.SetRandom()
+                .Wait(1)
+                .SaveButton.Should.BeDisabled()
+                .lastName.SetRandom()
+                .NickName.SetRandom()
+                .Wait(1)
+                .SaveButton.Should.BeDisabled()
+                .Email.SetRandom(out name)
+                .Wait(1)
+                .SaveButton.Should.BeDisabled()
+                .Email.Set($"{name}@yahoo.net")
+                .SaveButton.ClickAndGo<PlayerPage>()
+                .AddPlayersButton.ClickAndGo<NewPlayerPage>();
+        }
+
+
         /// <summary>
         /// delete the group before and after tests if any for this user
         /// </summary>
