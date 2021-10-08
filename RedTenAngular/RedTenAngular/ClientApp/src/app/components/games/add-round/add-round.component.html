@@ -1,0 +1,48 @@
+<div class="reduced-font d-flex flex-column flex-fill" style="padding-top: 10px" *ngIf="!chooseLosers">
+  <form (ngSubmit)="addRound()" #f="ngForm" class="reduced-font d-flex flex-column flex-fill" novalidate>
+    <div class="form-group">
+      <label for="roundTime"><strong>Time</strong></label>
+      <input type="datetime-local" id="roundTime" name="roundTime" class="form-control" [(ngModel)]="roundEdit.time" #roundTime="ngModel" required />
+    </div>
+    <div class="form-group reduced-font d-flex flex-column flex-fill">
+      <ag-grid-angular style="width: 100%; height: 100%;"
+                       class="ag-theme-alpine"
+                       [rowData]="rowDataPlayer"
+                       [columnDefs]="columnPlayerDef"
+                       [defaultColDef]="defaultColDef"
+                       [rowSelection]="rowSelection"
+                       (gridReady)="onGridReady($event)">
+      </ag-grid-angular>
+    </div>
+    <div class="form-group">
+      <button  type="submit" class="btn btn-primary float-left" [disabled]="!f.valid || totalSelectedRoundPlayers<3">Next</button>
+      <button  type="button" class="btn btn-outline-danger float-right" (click)="roundCancel()">Cancel</button>
+    </div>
+  </form>
+</div>
+
+
+<div *ngIf="chooseLosers" style="padding-top: 10px" class="reduced-font d-flex flex-column flex-fill">
+  <form (ngSubmit)="submitRound()" class="reduced-font d-flex flex-column flex-fill" novalidate #f="ngForm">
+    <div class="form-group">
+      <label for="loserScore">Score</label>
+      <input type="number" id="loserScore" name="loserScore" class="form-control" [(ngModel)]="scoreEdit" #loserScore="ngModel" value="0" min="0" [max]="totalSelectedRoundPlayers" />
+    </div>
+    <div class="form-group reduced-font d-flex flex-column flex-fill">
+      <label>Designate Losers</label>
+      <ag-grid-angular style="width: 100%;"
+                       class="ag-theme-alpine reduced-font d-flex flex-column flex-fill"
+                       [rowData]="rowDataRoundPlayers"
+                       [columnDefs]="columnPlayerDef"
+                       [defaultColDef]="defaultColDef"
+                       [rowSelection]="rowSelection"
+                       (gridReady)="onGridReady($event)">
+      </ag-grid-angular>
+    </div>
+    <div class="form-group">
+      <button type="submit" class="float-left btn btn-danger" [disabled]="!f.valid">Submit</button>
+      <button type="button" class="float-right btn btn-outline-secondary" (click)="toggleLosers()">Go Back</button>
+    </div>
+  </form>
+</div>
+

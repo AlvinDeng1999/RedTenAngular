@@ -15,7 +15,7 @@
     <div style="padding-top: 2px">
       <button *ngIf="!viewPlayerToggle" type="button" class="btn-sm btn btn-primary float-left" (click)="togglePlayers()" id="btnViewPlayers">View Players</button>
       <button *ngIf="viewPlayerToggle" type="button" class="btn-sm btn btn-primary float-left" (click)="togglePlayers()" id="btnHidePlayers">Hide Players</button>
-      <button *ngIf="viewPlayerToggle" type="button" class="btn-sm btn btn-primary float-right" data-toggle="modal" (click)="addPlayer()" id="btnAddPlayer">New Player</button>
+      <button *ngIf="viewPlayerToggle" type="button" class="btn-sm btn btn-primary float-right" data-toggle="modal" (click)="addPlayer()" id="btnAddPlayer">Add Player</button>
     </div>
     <div *ngIf="viewPlayerToggle && groups.length > 0" [@fadeInOut] class="d-flex flex-column flex-fill" style="padding-top: 10px;">
       

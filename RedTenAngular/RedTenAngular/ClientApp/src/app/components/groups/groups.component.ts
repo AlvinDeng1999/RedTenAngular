@@ -87,8 +87,6 @@ export class GroupsComponent implements OnInit {
 
   saveGroup() {
     this.alertService.startLoadingMessage();
-    console.log("save group");
-    console.log(this.groupEdit.name);
     this.groupService.createGroup(this.groupEdit).subscribe(result =>  {
       this.groups.push(result);
       this.alertService.showStickyMessage('Group saved');
@@ -106,7 +104,6 @@ export class GroupsComponent implements OnInit {
 
   cancelGroup() {
     this.groupModal.hide();
-    console.log("cancel group")
   }
 
   togglePlayers() {
@@ -144,6 +141,7 @@ export class GroupsComponent implements OnInit {
 
     this.playerModal.hide();
   }
+
   cancelPlayer() {
     this.playerModal.hide();
     console.log("cancel group")

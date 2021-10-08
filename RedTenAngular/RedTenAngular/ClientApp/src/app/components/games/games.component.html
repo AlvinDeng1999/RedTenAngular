@@ -6,118 +6,14 @@
     </header>
   </div>
 
-  <div *ngIf="open.id != 0" style="padding-top: 2px;" [@fadeInOut] class="d-flex flex-column reduced-font">
-    <app-current-game [openFromParent]="open" (openToParent)="gameClosed($event)"></app-current-game>
-  </div>
-  <div class="reduced-font d-flex flex-column flex-fill" [@fadeInOut] [ngStyle]="{'padding-top': open.id === 0 ? '10px' : '0px'}" *ngIf="open.id != 0 && !editRoundToggle && !chooseLosers">
-    <app-player-score [playerScoresFromParent]="playerScores" class="reduced-font d-flex flex-column flex-fill"></app-player-score>
-  </div>
-  <div class="modal fade" bsModal #gameDetails="bs-modal" tabindex="-1">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h3>Game Details</h3>
-        </div>
-        <div class="modal-body">
-          <form (ngSubmit)="saveEdit()">
-            <div class="form-group">
-              <label for="editLocation">Location</label>
-              <input class="form-control" type="text" id="editLocation" name="editLocation" value=open.location [(ngModel)]="open.location" #editLocation="ngModel" />
-            </div>
-            <div class="form-group">
-              <label for="editDate">Date</label>
-              <input class="form-control" type="datetime-local" id="editDate" name="editDate" value="open.date" [(ngModel)]="open.date" #editDate="ngModel" />
-            </div>
-            <div class="form-group">
-              <button type="submit" class="btn btn-sm btn-primary float-left">Save</button>
-              <button type="button" class="btn btn-sm btn-outline-danger float-right" (click)="closeGameDetails()">Cancel</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
+  <div *ngIf="open.id != 0" style="padding-top: 2px;" [@fadeInOut] class="d-flex flex-column flex-grow-1 reduced-font">
+    <app-current-game [openFromParent]="open" [playerScoresFromParent]="playerScores" [groupsFromParent]="groups" (openToParent)="gameClosed($event)" class="d-flex flex-column flex-grow-1 reduced-font"></app-current-game>
   </div>
 
-  <div *ngIf="editRoundToggle  && !chooseLosers" class="reduced-font d-flex flex-column flex-fill" style="padding-top: 10px" [@fadeInOut]>
-    <form (ngSubmit)="addRound()" #f="ngForm" class="reduced-font d-flex flex-column flex-fill" novalidate>
-      <div class="form-group">
-        <label for="roundTime"><strong>Time</strong></label>
-        <input type="datetime-local" id="roundTime" name="roundTime" class="form-control" [(ngModel)]="roundEdit.time" #roundTime="ngModel" required/>
-      </div>
-      <div class="form-group reduced-font d-flex flex-column flex-fill">
-        <ag-grid-angular style="width: 100%; height: 100%;"
-                         class="ag-theme-alpine"
-                         [rowData]="rowDataPlayer"
-                         [columnDefs]="columnPlayerDef"
-                         [defaultColDef]="defaultColDef"
-                         [rowSelection]="rowSelection"
-                         (gridReady)="onGridReady($event)">
-        </ag-grid-angular>
-      </div>
-      <div class="form-group">
-        <button *ngIf="open.id != 0 && editRoundToggle" type="submit" class="btn btn-sm btn-primary float-left" [disabled]="!f.valid || totalSelectedRoundPlayers<3">Save</button>
-        <button *ngIf="open.id != 0 && editRoundToggle" type="button" class="btn btn-sm btn-outline-danger float-right" (click)="toggleRound()">Cancel</button>
-      </div>
-    </form>
-  </div>
-
-  <div *ngIf="closed.length > 0 && !editRoundToggle  && !chooseLosers && open.id == 0" class="reduced-font d-flex flex-column flex-fill" [@fadeInOut] [ngStyle]="{'padding-top': open.id === 0 ? '10px' : '0px'}">
-    <h4>Past Games</h4>
-    <ag-grid-angular style="width: 100%; height: 100%;"
-                     class="ag-theme-alpine"
-                     [rowData]="rowData"
-                     [columnDefs]="columnDefs"
-                     [defaultColDef]="defaultColDef"
-                     (gridReady)="onGridReady($event)">
-    </ag-grid-angular>
-  </div>
-
-  <div *ngIf="chooseLosers" style="padding-top: 10px" class="reduced-font d-flex flex-column flex-fill">
-    <form (ngSubmit)="submitRound()" class="reduced-font d-flex flex-column flex-fill" novalidate #f="ngForm">
-      <div class="form-group">
-        <label for="loserScore">Score</label>
-        <input type="number" id="loserScore" name="loserScore" class="form-control" [(ngModel)]="scoreEdit" #loserScore="ngModel" value="0" min="0" [max]="totalSelectedRoundPlayers" />
-      </div>
-      <div class="form-group reduced-font d-flex flex-column flex-fill">
-        <label>Designate Losers</label>
-        <ag-grid-angular style="width: 100%;"
-                         class="ag-theme-alpine reduced-font d-flex flex-column flex-fill"
-                         [rowData]="rowDataRoundPlayers"
-                         [columnDefs]="columnPlayerDef"
-                         [defaultColDef]="defaultColDef"
-                         [rowSelection]="rowSelection"
-                         (gridReady)="onGridReady($event)">
-        </ag-grid-angular>
-      </div>
-      <div class="form-group">
-        <button type="submit" class="float-left btn btn-danger" [disabled]="!f.valid">Submit</button>
-        <button type="button" class="float-right btn btn-outline-secondary" (click)="losersToggle()">Go Back</button>
-      </div>
-    </form>
+  <div *ngIf="closed.length > 0 && open.id == 0" class="reduced-font d-flex flex-column flex-fill" [@fadeInOut] [ngStyle]="{'padding-top': open.id === 0 ? '10px' : '0px'}">
+    <app-past-games class="reduced-font d-flex flex-column flex-fill" [pastGamesFromParent]="closed" ></app-past-games>
   </div>
 </div>
-
-<div class="modal fade" bsModal #roundDetails="bs-modal" tabindex="-1">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3>Game Details</h3>
-      </div>
-      <div class="modal-body">
-        <ag-grid-angular style="width: 100%; height: 300px;"
-                         class="ag-theme-alpine"
-                         [rowData]="rowDataRounds"
-                         [columnDefs]="columnRoundDef"
-                         [defaultColDef]="defaultColDef"
-                         [rowSelection]="rowSelection"
-                         (gridReady)="onGridReady($event)">
-        </ag-grid-angular>
-      </div>
-    </div>
-  </div>
-</div>
-
-
 
 <div class="modal fade" bsModal #gameModal="bs-modal" tabindex="-1">
   <div class="modal-dialog">
@@ -127,7 +23,6 @@
       </div>
       <div class="modal-body">
         <form *ngIf="formResetToggle" name="gameEditorForm" #f="ngForm" (ngSubmit)="saveGame()" novalidate>
-          
           <div class="form-group">
             <label for="gameLocation">Location</label>
             <input class="form-control" type="text" id="gameLocation" name="gameLocation" placeholder="Enter Location" [(ngModel)]="gameEdit.location" #gameLocation="ngModel" required

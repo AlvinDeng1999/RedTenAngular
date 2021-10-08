@@ -1,0 +1,10 @@
+<div class="reduced-font d-flex flex-column flex-fill">
+  <h4>Past Games</h4>
+  <ag-grid-angular style="width: 100%; height: 100%;"
+                   class="ag-theme-alpine"
+                   [rowData]="rowData"
+                   [columnDefs]="columnDefs"
+                   [defaultColDef]="defaultColDef"
+                   (gridReady)="onGridReady($event)">
+  </ag-grid-angular>
+</div>

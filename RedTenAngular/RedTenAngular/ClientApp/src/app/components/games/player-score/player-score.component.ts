@@ -7,6 +7,8 @@ import { PlayerScore } from '../../../models/playerscore.model';
   styleUrls: ['./player-score.component.scss']
 })
 export class PlayerScoreComponent implements OnInit, OnChanges {
+  @Input() playerScoresFromParent: PlayerScore[];
+  playerScores: PlayerScore[] = [];
 
   constructor() {
     
@@ -15,15 +17,12 @@ export class PlayerScoreComponent implements OnInit, OnChanges {
   ngOnInit(): void {
 
   }
-  playerScores: PlayerScore[]=[]
-  @Input() playerScoresFromParent: PlayerScore[];
 
   ngOnChanges() {
     this.playerScores = this.playerScoresFromParent;
   }
 
   defaultColDef = true;
-
   columnDef = [
     {
       field: 'id',

@@ -63,6 +63,8 @@ import { PlayerScoreComponent } from './components/games/player-score/player-sco
 
 import { AgGridModule } from 'ag-grid-angular';
 import { CurrentGameComponent } from './components/games/current-game/current-game.component';
+import { PastGamesComponent } from './components/games/past-games/past-games.component';
+import { AddRoundComponent } from './components/games/add-round/add-round.component';
 
 
 @NgModule({
@@ -110,7 +112,9 @@ import { CurrentGameComponent } from './components/games/current-game/current-ga
     GamesComponent,
     GroupsComponent,
     PlayerScoreComponent,
-    CurrentGameComponent
+    CurrentGameComponent,
+    PastGamesComponent,
+    AddRoundComponent
   ],
   providers: [
     { provide: ErrorHandler, useClass: AppErrorHandler },

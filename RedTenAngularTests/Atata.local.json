@@ -5,7 +5,7 @@
   },
   "AppSettings": {
     "WebAppRootUrl": "https://localhost:44350/",
-    "UserName": "admin",
+    "UserName": "mary",
     "Password": "tempP@ss123"
   }
 }
