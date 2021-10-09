@@ -19,6 +19,8 @@ import { PlayerViewModel } from '../../models/playerviewmodel.model';
 import { PlayerScore } from '../../models/playerscore.model';
 import { GameDetails } from '../../models/gamedetails.model';
 
+import { faPlus, faSave } from '@fortawesome/free-solid-svg-icons';
+
 @Component({
   selector: 'app-games',
   templateUrl: './games.component.html',
@@ -26,6 +28,10 @@ import { GameDetails } from '../../models/gamedetails.model';
   animations: [fadeInOut]
 })
 export class GamesComponent implements OnInit {
+
+  faPlus = faPlus;
+  faSave = faSave;
+
   @ViewChild('gameModal', { static: true })
   gameModal: ModalDirective;
 

@@ -2,7 +2,7 @@
   <div>
     <header class="pageHeader">
       <h3 class="float-left">My Games </h3>
-      <button *ngIf="open.id == 0" type="button" class="btn btn-primary float-right" data-toggle="modal" (click)="addGame()" [@fadeInOut]>New Game</button>
+      <button *ngIf="open.id == 0" type="button" class="btn btn-primary float-right" data-toggle="modal" (click)="addGame()" [@fadeInOut]><fa-icon [icon]="faPlus"></fa-icon> New Game</button>
     </header>
   </div>
 
@@ -34,8 +34,8 @@
                    [ngClass]="{'is-valid': f.submitted && gameDate.valid, 'is-invalid' : f.submitted && !gameDate.valid}" />
           </div>
           <div class="form-group">
-            <button type="submit" class="btn btn-primary btn-left" [disabled]="!f.valid">Save</button>
-            <button type="button" class="btn btn-secondary btn-right" (click)="cancelGame()">Cancel</button>
+            <button type="submit" class="btn btn-primary btn-left" [disabled]="!f.valid"><fa-icon [icon]="faSave"></fa-icon> Save</button>
+            <button type="button" class="btn btn-outline-secondary btn-right" (click)="cancelGame()">Cancel</button>
           </div>
         </form>
       </div>

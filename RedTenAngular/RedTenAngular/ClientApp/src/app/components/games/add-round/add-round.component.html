@@ -15,8 +15,8 @@
       </ag-grid-angular>
     </div>
     <div class="form-group">
-      <button  type="submit" class="btn btn-primary float-left" [disabled]="!f.valid || totalSelectedRoundPlayers<3">Next</button>
-      <button  type="button" class="btn btn-outline-danger float-right" (click)="roundCancel()">Cancel</button>
+      <button type="submit" class="btn btn-sm btn-primary float-left" [disabled]="!f.valid || totalSelectedRoundPlayers<3"><fa-icon [icon]="faAngleDoubleRight"></fa-icon> Next</button>
+      <button  type="button" class="btn btn-sm btn-outline-danger float-right" (click)="roundCancel()">Cancel</button>
     </div>
   </form>
 </div>
@@ -40,8 +40,8 @@
       </ag-grid-angular>
     </div>
     <div class="form-group">
-      <button type="submit" class="float-left btn btn-danger" [disabled]="!f.valid">Submit</button>
-      <button type="button" class="float-right btn btn-outline-secondary" (click)="toggleLosers()">Go Back</button>
+      <button type="submit" class="float-left btn btn-sm btn-primary" [disabled]="!f.valid"><fa-icon [icon]="faSave"></fa-icon> Save</button>
+      <button type="button" class="float-right btn btn-sm btn-outline-secondary" (click)="toggleLosers()"><fa-icon [icon]="faAngleDoubleLeft"></fa-icon> Go Back</button>
     </div>
   </form>
 </div>

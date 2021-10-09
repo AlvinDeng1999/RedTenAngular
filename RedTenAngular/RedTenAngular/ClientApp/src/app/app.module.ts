@@ -66,6 +66,7 @@ import { CurrentGameComponent } from './components/games/current-game/current-ga
 import { PastGamesComponent } from './components/games/past-games/past-games.component';
 import { AddRoundComponent } from './components/games/add-round/add-round.component';
 
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   imports: [
@@ -90,7 +91,8 @@ import { AddRoundComponent } from './components/games/add-round/add-round.compon
     BsDropdownModule.forRoot(),
     CarouselModule.forRoot(),
     ModalModule.forRoot(),
-    ChartsModule
+    ChartsModule,
+    FontAwesomeModule
   ],
   declarations: [
     AppComponent,

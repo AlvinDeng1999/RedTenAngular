@@ -7,12 +7,19 @@ import { RoundViewModel } from '../../../models/roundviewmodel.model';
 import { PlayerViewModel } from '../../../models/playerviewmodel.model';
 import { RoundService } from '../../../services/round.service';
 
+import { faAngleDoubleRight, faAngleDoubleLeft, faSave } from '@fortawesome/free-solid-svg-icons';
+
 @Component({
   selector: 'app-add-round',
   templateUrl: './add-round.component.html',
   styleUrls: ['./add-round.component.scss']
 })
 export class AddRoundComponent implements OnInit {
+
+  faAngleDoubleRight = faAngleDoubleRight;
+  faAngleDoubleLeft = faAngleDoubleLeft;
+  faSave = faSave;
+
   @Input() playersFromParent: Player[];
   @Input() openFromParent: Game;
   

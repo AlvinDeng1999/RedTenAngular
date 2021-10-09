@@ -9,12 +9,20 @@ import { GameDetails } from '../../../models/GameDetails.model';
 
 import { GameService } from '../../../services/game.service';
 
+import { faPlus, faEdit, faTimes, faSave } from '@fortawesome/free-solid-svg-icons';
+
 @Component({
   selector: 'app-current-game',
   templateUrl: './current-game.component.html',
   styleUrls: ['./current-game.component.scss']
 })
 export class CurrentGameComponent implements OnInit, OnChanges {
+
+  faPlus = faPlus;
+  faEdit = faEdit;
+  faTimes = faTimes;
+  faSave = faSave;
+
   @ViewChild('closeModal', { static: true })
   closeModal: ModalDirective;
   @ViewChild('gameDetails', { static: true })

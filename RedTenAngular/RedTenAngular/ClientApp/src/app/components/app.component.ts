@@ -19,6 +19,8 @@ import { ConfigurationService } from '../services/configuration.service';
 import { Permission } from '../models/permission.model';
 import { LoginComponent } from '../components/login/login.component';
 
+import { faCoffee } from '@fortawesome/free-solid-svg-icons';
+
 const alertify: any = require('../assets/scripts/alertify.js');
 
 
@@ -28,7 +30,7 @@ const alertify: any = require('../assets/scripts/alertify.js');
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
-
+  faCoffee = faCoffee;
   isAppLoaded: boolean;
   isUserLoggedIn: boolean;
   shouldShowLoginModal: boolean;

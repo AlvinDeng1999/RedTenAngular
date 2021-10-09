@@ -7,6 +7,9 @@ import { PlayerService } from '../../services/player.service';
 import { Player } from '../../models/player.model';
 import { AlertService, MessageSeverity } from '../../services/alert.service';
 
+import { faPlus, faUserPlus, faSave } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
+
 @Component({
   selector: 'app-groups',
   templateUrl: './groups.component.html',
@@ -25,7 +28,12 @@ export class GroupsComponent implements OnInit {
   playerEdit: Player = new Player();
   groups: Group[] = [];
   viewPlayerToggle: boolean = false;
-  
+
+  faPlus = faPlus;
+  faUserPlus = faUserPlus;
+  faEye = faEye;
+  faEyeSlash = faEyeSlash;
+  faSave = faSave;
 
   defaultColDef = true;
 
