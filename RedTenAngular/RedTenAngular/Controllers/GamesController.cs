@@ -75,7 +75,10 @@ namespace RedTenAngular.Controllers
             // Security validation
             if (game.GroupId == groupId && idFromBody == idFromGame)
             {
-                _unitOfWork.Games.UpdateGame(game);
+                gameFromDB.Status = game.Status;
+                gameFromDB.Location = game.Location;
+                gameFromDB.Date = game.Date;
+                _unitOfWork.Games.UpdateGame(gameFromDB);
                 _unitOfWork.SaveChanges();
                 return Ok(game);
             }
